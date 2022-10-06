@@ -1,0 +1,82 @@
+<style>
+
+.bg {
+  animation:slide 1s ease-in-out infinite alternate;
+  bottom:0;
+  
+  
+  width: 100%;
+  top:0;
+  
+}
+
+.bg2 {
+  animation-direction:alternate-reverse;
+  animation-duration:3s;
+}
+
+.bg3 {
+  animation-duration:1s;
+}
+
+h1 {
+  font-family:monospace;
+}
+
+@keyframes slide {
+  0% {
+    transform:translateY(-7%);
+  }
+  100% {
+    transform:translateY(8%);
+  }
+}
+
+
+:root {
+            
+            --cor-reflexo: rgba(255, 255, 255, 0.4);
+            --cores-dancantes: rgb(76, 217, 105), rgb(52, 170, 220), rgb(88, 86, 217),
+                rgb(255, 45, 83);
+        }
+
+        * {
+            font-family: "Verdana", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            scroll-behavior: smooth;
+            
+        }
+
+        
+
+        .conteudo {
+            background: linear-gradient(to right, var(--cores-dancantes));
+            border-radius:16px;
+            position: relative;
+            animation: coresDancantes 2s linear infinite;
+        }
+
+        @keyframes coresDancantes {
+            100% {
+                filter: hue-rotate(360deg);
+            }
+        }
+
+       
+
+        .conteudo .caixa {
+            background-color: var(--cor-background);
+            
+        }
+</style>
+<section class="bg bg2 mt-5">
+<div class="bg3 conteudo" style="width:100%;">
+    <div class="card p-3 caixa" style="width: 100%;">
+
+        <img src="/images/background.jpg" alt="" style="height: 500px;width: 100%;border-radius:12px;">
+    </div>
+
+
+</div>
+</section>

@@ -1,0 +1,213 @@
+
+{{!-- <style>
+
+.bg {
+  animation:slide 3s ease-in-out infinite alternate;
+  bottom:0;
+  
+  position:fixed;
+  width: 70%;
+  top:0;
+  z-index:-1;
+}
+
+.bg2 {
+  animation-direction:alternate-reverse;
+  animation-duration:10s;
+}
+
+.bg3 {
+  animation-duration:5s;
+}
+
+h1 {
+  font-family:monospace;
+}
+
+@keyframes slide {
+  0% {
+    transform:translateY(-5%);
+  }
+  100% {
+    transform:translateY(5%);
+  }
+}
+</style> --}}
+
+<div class="container-fluid pl-5 " style="position: fixed;z-index: 9999999991;background: linear-gradient(to bottom right, rgb(244, 244, 244), rgb(250, 226, 226));">
+      <nav class="navbar navbar-expand-lg navbar-light  p-4" style="margin-left: 200px; background: linear-gradient(to bottom right, rgb(244, 244, 244), rgb(250, 226, 226));">
+        <a class="navbar-brand" href="/">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active ml-5">
+              <a class="btn btn-outline-info" href="/update-profile" style="border-color: aqua; border-radius: 50px; color: black;">Update Profile <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item ml-5">
+              <a class="btn btn-outline-info" href="#" style="border-color: aqua; border-radius: 50px;color: black;">MyBookings</a>
+            </li>
+            <li class="nav-item ml-5">
+              <a class="btn btn-outline-info" href="/my-documents" style="border-color: aqua; border-radius: 50px;color: black;">MyDocuments</a>
+            </li>
+            
+            <li class="nav-item ml-5">
+              <a class="btn btn-outline-info" href="#" style="border-color: aqua; border-radius: 50px;color: black;">Inbox</a>
+            </li>
+          </ul>
+          <a href="/logout"class="btn btn-warning"><i class="bi bi-box-arrow-right"></i>
+          <span>Logout</span></a>
+          <i class="bi bi-list toggle-sidebar-btn ml-3"></i>
+        </div>
+      </nav>
+    </div>
+
+    <section  style=" padding: 10px; background: linear-gradient(to bottom right, rgb(244, 244, 244), rgb(251, 224, 224));">
+      
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+  <!-- Template Main CSS File -->
+  
+    <link rel='stylesheet' href='/stylesheets/admin_home.css' />
+
+<div class="body" >
+  {{!-- <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      
+        <img src="assets/img/logo.png" alt="">
+        <span class="d-none d-lg-block"><h1>Admin</h1></span>
+        
+      </a>
+      
+    </div><!-- End Logo -->
+
+    
+
+    
+
+  </header><!-- End Header --> --}}
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar mt-3 " style="background: linear-gradient(to bottom right, rgb(244, 244, 244), rgb(250, 226, 226));">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item mt-3">
+        <a class="btn btn-outline-info " style="border-radius:50px; width: 250px;" href="/user-home">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item mt-4">
+        <a class="btn btn-outline-info " style="border-radius:50px; width: 250px;" href="/user-home">
+          <img src="/images/user.png" alt="" style="height: 20px; width: 20px;">
+          <span>MyProfile</span>
+        </a>
+      </li>
+
+      <li class="nav-item mt-4">
+        <a class="btn btn-outline-info " style="border-radius:50px; width: 250px;" href="/update-profile">
+          <img src="/images/update.png" alt="" style="height: 20px; width: 20px;">
+          <span>Update Profile</span>
+        </a>
+      </li>
+
+      <li class="nav-item mt-4">
+        <a class="btn btn-outline-info " style="border-radius:50px; width: 250px;" href="/admin/carlist">
+          <i class='bx bxs-car'></i>
+          <span>Car List</span>
+        </a>
+      </li>
+
+      <li class="nav-item mt-4">
+        <a class="btn btn-outline-info " style="border-radius:50px; width: 250px;" href="/admin/driver-list">
+          <img src="/images/driver.png" alt="" style="height: 20px; width: 20px;">
+          <span>Driver List</span>
+        </a>
+      </li>
+
+      <li class="nav-item mt-4">
+        <a class="btn btn-outline-info " style="border-radius:50px; width: 250px;" href="/admin/bookings">
+          <img src="/images/booking.png" alt="" style="height: 20px; width: 20px;">
+          <span>Bookings</span>
+        </a>
+      </li>
+      <li class="nav-item mt-4">
+        <a class="btn btn-outline-info " style="border-radius:50px; width: 250px;" href="/my-documents">
+          <img src="/images/document.png" alt="" style="height: 20px; width: 20px;">
+          <span>MyDocuments</span>
+        </a>
+      </li>
+      <li class="nav-item mt-4">
+        <a class="btn btn-outline-info " style="border-radius:50px; width: 250px;" href="/admin/feedback">
+          <img src="/images/feedback.png" alt="" style="height: 20px; width: 20px;">
+          <span>Feedback</span>
+        </a>
+      </li>
+      <li class="nav-item mt-4">
+        <a href="/logout" class="btn btn-outline-warning " style="border-radius:50px; width: 250px;">
+          <img src="/images/logout.png" alt="" style="height: 20px; width: 20px; margin-right:0;">
+          <span>Logout</span>
+        </a>
+      </li>
+
+
+    </ul>
+
+  </aside><!-- End Sidebar-->
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1 class="text-center">Welcome {{customer.full_name}}</h1>
+      <nav>
+        <ol class="breadcrumb text-center">
+          <li class="breadcrumb-item"><a href="">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+
+    
+
+    <section class="section dashboard">
+      {{{body}}}
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer" style="padding: 70px;">
+    <div class="copyright">
+      &copy; Copyright <strong><span>Admin</span></strong>. All Rights Reserved
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  
+
+  <!-- Template Main JS File -->
+  
+  <script src="/javascripts/admin_script.js"></script>
+  
+  
+</div>
+
+    </section>
+    

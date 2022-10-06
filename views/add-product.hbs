@@ -1,0 +1,36 @@
+<section>
+  <h2 class="text-center mt-2">Add product</h2>
+    <div class="container">
+        <div class="row">
+          
+            <div class="col-md-7 m-auto ">
+<form action="/admin/add" method="post" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" class="form-control" id="pname"  name="Name" placeholder="Enter Name">
+  
+  </div>
+   <div class="form-group">
+    <label for="category">Price</label>
+    <input type="number" class="form-control" id="pcate"name="price" placeholder="Price" >
+  </div>
+  <div class="form-group">
+    <label for="category">category</label>
+    <input type="text" class="form-control" id="pcate"name="category" placeholder="category" >
+  </div>
+
+  <div class="form-group">
+    <label for="description">description</label>
+    <input type="text" class="form-control" id="pdes"name="description" placeholder="description">
+  </div>
+   <div class="form-group">
+    <label for="exampleFormControlFile1">image</label>
+    <input type="file" class="form-control-file" id="exampleFormControlFile1" name="image">
+  </div>
+  
+  <button type="submit" class="btn btn-success">Submit</button>
+</form>
+</div>
+</div>
+</div>
+</section>

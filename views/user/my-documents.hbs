@@ -1,0 +1,16 @@
+<div class="container p-3">
+    <div><a href="/add-document"class="btn btn-outline-success">add Document</a></div>
+    <div class="row">
+    {{#each docs}}
+    
+    <div class="card col-md-3 mt-5 ml-3">
+  <img src="/user-document/{{this.full_name}}{{this.document_type}}{{this.user_id}}.jpg" class="card-img-top mt-3" alt="Fissure in Sandstone" style="width:100%; height:300px ;">
+  
+  
+  <div class="card-body">
+    <h5 class="card-title">{{this.document_type}}</h5>
+  </div>
+</div>
+{{/each}}
+</div>
+</div>
