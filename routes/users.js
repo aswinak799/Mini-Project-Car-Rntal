@@ -60,7 +60,8 @@ router.post('/register',async(req,res)=>{
                     if(err){
                       return res.status(500).send(err);
                     }else{
-                      userHelper.uploadDocument({'Document':docs},result.insertId).then(()=>{
+                      let user_type="customer"
+                      userHelper.uploadDocument({'Document':docs},result.insertId,user_type).then(()=>{
                         return res.redirect('/login');
                       })
                     }
@@ -151,14 +152,14 @@ router.post('/update-profile',(req,res)=>{
 })
 //view documents
 router.get('/my-documents',(req,res)=>{
-  userHelper.getDocuments(req.session.user.l_id).then((response)=>{
-    return res.render('user/my-documents',{'user':true,'docs':response,});
+  userHelper.getDocuments(req.session.user.l_id,req.session.user.user_type).then((response)=>{
+    return res.render('user/my-documents',{'user':true,'docs':response,'customer':req.session.user});
   })
   
 })
 //add document
 router.get('/add-document',(req,res)=>{
-  res.render('user/add-document',{'user':true})
+  res.render('user/add-document',{'user':true,'customer':req.session.user})
 })
 router.post('/add-document',async(req,res)=>{
   // let totalDocs = await userHelper.getDocumentLength(req.session.user.user_id)
@@ -175,7 +176,7 @@ router.post('/add-document',async(req,res)=>{
     })
   }
   
-    userHelper.uploadDocument(req.body,req.session.user.user_id).then(()=>{
+    userHelper.uploadDocument(req.body,req.session.user.user_id,req.session.user.user_type).then(()=>{
       res.redirect('/my-documents');
   
     }).catch(()=>{

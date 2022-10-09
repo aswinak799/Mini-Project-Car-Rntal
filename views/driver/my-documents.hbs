@@ -1,0 +1,39 @@
+<style>
+  h1{
+    font-weight: bold;
+    cursor: pointer;
+    transition: .3s all ease;
+  }
+  .card{
+    transition: .5s all ease;
+  }
+  .card:hover{
+    border-radius: 16px;
+    z-index: 1;
+    transform: scale(1.3);
+  }
+  h1:hover{
+    color: deepskyblue;
+    font-style: italic;
+    transform: scale(1.3);
+    
+    
+  }
+</style>
+<div class="container p-3">
+    <div><a href="/driver/add-document"class="btn btn-outline-success float-right">add Document</a></div><br>
+    <h1 class="text-center mt-3">My-Documents</h1>
+    <div class="row">
+    {{#each docs}}
+    
+    <div class="card col-md-3 mt-5 ml-3">
+  <img src="/driver-documents/{{this.name}}{{this.document_type}}{{this.driver_id}}.jpg" class="card-img-top mt-3" alt="Fissure in Sandstone" style="width:100%; height:300px ;">
+  
+  
+  <div class="card-body">
+    <h5 class="card-title">{{this.document_type}}</h5>
+  </div>
+</div>
+{{/each}}
+</div>
+</div>

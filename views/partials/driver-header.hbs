@@ -52,27 +52,12 @@ h1 {
   .sidebar-nav .nav-link:hover{
     border-radius:  5px;;
   }
-  .chip {
-  display: inline-block;
-  padding: 0 25px;
-  height: 50px;
-  font-size: 16px;
-  line-height: 50px;
-  border-radius: 25px;
-  background-color: #f1f1f1;
-}
 
-.chip img {
-  float: left;
-  margin: 0 10px 0 -25px;
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
-}
+
 
 </style>
-<div class="container-fluid pl-5 " style="position: fixed;z-index: 9999999991;background: linear-gradient(to bottom right, rgb(244, 244, 244), rgb(250, 226, 226));">
-      <nav class="navbar navbar-expand-lg navbar-light  p-4" style="margin-left: 200px; background: linear-gradient(to bottom right, rgb(244, 244, 244), rgb(250, 226, 226));">
+<div class="container-fluid pl-5 " style="position: fixed;z-index: 9999999991;background: linear-gradient(to bottom right, rgb(58, 77, 249), rgb(44, 184, 239));">
+      <nav class="navbar navbar-expand-lg navbar-light  p-4" style="margin-left: 200px; background: linear-gradient(to bottom right, rgb(58, 77, 249), rgb(44, 184, 239));">
         <a class="navbar-brand" href="/">Home</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -81,7 +66,7 @@ h1 {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active ml-5">
-              <a class="btn btn-outline-info" href="/update-profile" style="border-color: aqua; border-radius: 50px; color: black;">Update Profile <span class="sr-only">(current)</span></a>
+              <a class="btn btn-outline-info" href="/update-profile" style="color: #fff; border-color: aqua; border-radius: 50px; color: black;">Update Profile <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item ml-5">
               <a class="btn btn-outline-info" href="#" style="border-color: aqua; border-radius: 50px;color: black;">MyBookings</a>
@@ -94,10 +79,26 @@ h1 {
               <a class="btn btn-outline-info" href="#" style="border-color: aqua; border-radius: 50px;color: black;">Inbox</a>
             </li>
           </ul>
-          <div class="chip mr-4">
-            <img src="/user-images/{{customer.full_name}}{{customer.user_id}}.jpg" alt="Person" width="96" height="96">
-            {{customer.full_name}}
-          </div>
+          <div class="btn-group mr-5">
+          {{#if (eq driver.status "Available") }}
+  <button type="button" class="btn btn-success dropdown-toggle" style="border-radius: 15px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{driver.status}}
+  </button>
+  {{else}}
+  <button type="button" class="btn btn-danger dropdown-toggle" style="border-radius: 15px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{driver.status}}
+  </button>
+  {{/if}}
+
+  <div class="dropdown-menu">
+    {{#if (eq driver.status "Available") }}
+    <a class="dropdown-item" href="/driver/change-status/?status=Not available&Id={{driver.driver_id}}">Not available</a>
+    {{else}}
+    <a class="dropdown-item" href="/driver/change-status/?status=Available&Id={{driver.driver_id}}">Available</a>
+    {{/if}}
+
+  </div>
+</div>
           <a href="/logout"class="btn btn-warning"><i class="bi bi-box-arrow-right"></i>
           <span>Logout</span></a>
           <i class="bi bi-list toggle-sidebar-btn ml-3"></i>
@@ -106,7 +107,7 @@ h1 {
     </div>
 
     <section class="bh"  style=" padding: 10px; background-color: #FFDEE9;
-background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 50%, #ffffed 100%);
+background-image: linear-gradient(0deg, #fac8d9 0%, #bcfaf8 50%, #fdfdda 100%);
 ">
       
 
@@ -144,53 +145,52 @@ background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 50%, #ffffed 100%);
   </header><!-- End Header --> --}}
 
   <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar mt-3 " style="background: linear-gradient(to bottom right, rgb(244, 244, 244), rgb(250, 226, 226));">
+  <aside id="sidebar" class="sidebar mt-3 " style="background: linear-gradient(to bottom right, rgb(58, 77, 249), rgb(44, 184, 239));">
 
     <ul class="sidebar-nav" id="sidebar-nav">
-
+        <li>
+            <div class="card-body" style="height:180px;">
+                  <div class="d-flex flex-column align-items-center text-center">
+                    <img src="/driver-images/{{driver.name}}{{driver.driver_id}}.jpg" alt="user" class="rounded-circle" width="60" height="60">
+                    <div class="mt-3">
+                      <h4>{{driver.name}}</h4>
+                      <h5 class="mb-1" style="color:#fff;">{{driver.email}}</h5>
+                     
+                      
+                    </div>
+                  </div>
+                </div>
+        </li>
       <li class="nav-item mt-1">
-        <a class="nav-link" style="border-radius:50px; width: 250px;" href="/user-home">
+        <a class="nav-link" style="border-radius:50px; width: 250px;" href="/driver/">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item mt-4">
-        <a class="nav-link" style="border-radius:50px; width: 250px;" href="/user-home">
+        <a class="nav-link" style="border-radius:50px; width: 250px;" href="/driver/">
           <i class="bi bi-person-badge-fill"></i>
           <span>MyProfile</span>
         </a>
       </li>
 
       <li class="nav-item mt-4">
-        <a class="nav-link " style="border-radius:50px; width: 250px;" href="/update-profile">
+        <a class="nav-link " style="border-radius:50px; width: 250px;" href="/driver/update-profile">
           <i class="bi bi-capslock-fill"></i>
           <span>Update Profile</span>
         </a>
       </li>
 
-      <li class="nav-item mt-4">
-        <a class="nav-link " style="border-radius:50px; width: 250px;" href="/admin/carlist">
-          <i class='bx bxs-car'></i>
-          <span>Car List</span>
-        </a>
-      </li>
 
       <li class="nav-item mt-4">
-        <a class="nav-link " style="border-radius:50px; width: 250px;" href="/admin/driver-list">
-          <i class="bi bi-person-workspace"></i>
-          <span>Driver List</span>
-        </a>
-      </li>
-
-      <li class="nav-item mt-4">
-        <a class="nav-link " style="border-radius:50px; width: 250px;" href="/admin/bookings">
+        <a class="nav-link " style="border-radius:50px; width: 250px;" href="/driver/bookings">
           <i class="bi bi-journal-richtext"></i>
-          <span>Bookings</span>
+          <span>View Bookings</span>
         </a>
       </li>
       <li class="nav-item mt-4">
-        <a class="nav-link " style="border-radius:50px; width: 250px;" href="/my-documents">
+        <a class="nav-link " style="border-radius:50px; width: 250px;" href="/driver/my-documents">
           <i class="bi bi-file-earmark-richtext-fill"></i>
           <span>MyDocuments</span>
         </a>
@@ -198,7 +198,7 @@ background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 50%, #ffffed 100%);
       <li class="nav-item mt-4">
         <a class="nav-link " style="border-radius:50px; width: 250px;" href="/admin/feedback">
           <i class="bi bi-chat-left-fill"></i>
-          <span>Feedback</span>
+          <span>Availability</span>
         </a>
       </li>
       <li class="nav-item mt-4">
@@ -216,7 +216,7 @@ background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 50%, #ffffed 100%);
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1 class="text-center">Welcome {{customer.full_name}}</h1>
+      <h1 class="text-center">Driver Dashboard</h1>
       <nav>
         <ol class="breadcrumb text-center">
           <li class="breadcrumb-item"><a href="">Home</a></li>

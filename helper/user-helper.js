@@ -94,12 +94,12 @@ module.exports = {
            let sql =`update registration set full_name='${fname}', dob='${dob}',gender='${gender}',phone='${phone}',address='${address}' where user_id=${UID}`
            database.query(sqll,(err,result)=>{
             if(err) {
-                throw err;
+                reject();
             }
             else{
                 database.query(sql,(err,result)=>{
                     if(err) {
-                        throw err;
+                        reject();
                     }
                     else resolve();
                 })
@@ -107,10 +107,16 @@ module.exports = {
            })
         })
     },
-    uploadDocument:(data,userId)=>{
+    uploadDocument:(data,userId,user_type)=>{
         let document = data.Document;
         return new Promise((resolve, reject) => {
-            let sql = `insert into user_docs(document_type,user_id) values('${document}','${userId}')`;
+            let sql;
+            if(user_type==='customer'){
+                sql = `insert into user_docs(document_type,user_id) values('${document}','${userId}')`;
+            }else{
+                sql = `insert into driver_docs(document_type,d_id) values('${document}','${userId}')`;
+            }
+            
             database.query(sql,(err,result)=>{
                 if(err){
                     reject();
@@ -120,9 +126,15 @@ module.exports = {
             })
         })
     },
-    getDocuments:(l_id)=>{
+    getDocuments:(l_id,user_type)=>{
         return new Promise((resolve, reject) => {
-            let sql = `select * from user_docs inner join registration on user_docs.user_id=registration.user_id where l_id='${l_id}'`;
+            let sql;
+            if(user_type==='customer'){
+                sql = `select * from user_docs inner join registration on user_docs.user_id=registration.user_id where l_id='${l_id}'`;  
+            }else{
+                sql = `select * from driver_docs inner join driver_table on driver_docs.d_id=driver_table.driver_id where l_id='${l_id}'`;
+
+            }
             database.query(sql,(err,result)=>{
                 if(err) throw err;
                 else resolve(result)
@@ -137,5 +149,33 @@ module.exports = {
                 else resolve(result.length);
             })
         })
-    }
+    },
+    updateDriver:(DID,LID,data)=>{
+        let fname = data.fname;
+        let dob = data.dob;
+        let gender = data.gender;
+        let phone = data.phone;
+        let address = data.address;
+        let email = data.email;
+        let exp = data.exp;
+        return new Promise((resolve, reject) => {
+            console.log(data);
+           let sqll=`update login set email='${email}' where l_id=${LID}`;
+           let sql =`update driver_table set name='${fname}', dob='${dob}',gender='${gender}',phone='${phone}',address='${address}',exp='${exp}' where driver_id=${DID}`
+           database.query(sqll,(err,result)=>{
+            if(err) {
+                reject();
+            }
+            else{
+                database.query(sql,(err,result)=>{
+                    if(err) {
+                        reject();
+                    }
+                    else resolve();
+                })
+            }
+           })
+        })
+    },
+
 }

@@ -1,0 +1,149 @@
+<section class="gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row justify-content-center align-items-center h-100">
+      <div class="col-12 col-lg-9 col-xl-7">
+        <div class="card shadow-2-strong card-registration" style="border-radius: 20px;">
+          <div class="card-body p-4 p-md-5">
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Update User Details</h3>
+            <form action="/driver/update-profile" method="post" enctype="multipart/form-data">
+              <div class="row">
+                <div class="col-md-6 mb-4">
+
+                  <div class="form-outline">
+                    <label class="form-label" for="fullName">Name</label>
+                    <input type="text" id="fullName" class="form-control form-control-lg" name="fname" value="{{driver.name}}" required>
+                    
+                  </div>
+
+                </div>
+                <div class="col-md-6 mb-4">
+
+                  <div class="form-outline">
+                    <label class="form-label" for="email">Email</label>
+                    <input type="email" id="email" class="form-control form-control-lg " name="email" value="{{driver.email}}" required>
+                    
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-4 d-flex align-items-center">
+
+                  <div class="form-outline datepicker w-100">
+                    <label for="birthdayDate" class="form-label">Birthday</label>
+                    <input type="date" class="form-control form-control-lg " id="birthdayDate" name="dob" value="" required>
+                    
+                  </div>
+
+                </div>
+                <div class="col-md-6 mb-4">
+
+                  <div class="form-group">
+                    <label for="">Gender</label>
+                  <select class="custom-select custom-select-lg is-valid" name="gender" required>
+                    <option value="{{customer.gender}}">{{driver.gender}}</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    
+                  </select>
+                  
+                </div>
+
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-4 pb-2">
+
+                  <div class="form-outline">
+                    <label class="form-label" for="phoneNumber">Phone Number</label>
+                    <input type="tel" id="phoneNumber" class="form-control form-control-lg " name="phone" value="{{driver.phone}}" required>
+                    
+                  </div>
+
+                </div>
+
+                <div class="col-md-6 mb-4 pb-2">
+
+                  <div class="form-outline">
+                    <label class="form-label" for="Experience">Experience</label>
+                    <input type="text" id="Experience" class="form-control form-control-lg " name="exp" value="{{driver.exp}}" required>
+                    
+                  </div>
+
+                </div>
+                
+              </div>
+              <div class="row">
+                <div class="col-md-12 mb-4 pb-2">
+                  <div class="form-group">
+                      <label for="exampleFormControlTextarea1">Address</label>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="address" >{{driver.address}}</textarea>
+                  </div>
+
+                  
+
+                </div>
+                
+              </div>
+             
+
+              <div class="row">
+                <div class="col-md-6 mb-4 pb-2">
+
+                   <div class="form-outline">
+                    <label for="exampleFormControlFile1">Image</label>
+                    
+                    <input type="file" class="form-control-file" id="exampleFormControlFile1" name="image" onchange="viewImg(event)">
+                  </div>
+                  
+
+                </div>
+
+                <div class="col-md-6 mb-4 pb-2">
+
+                   <div class="form-outline">
+                    
+                    <img src="/driver-images/{{driver.name}}{{driver.driver_id}}.jpg" id="imgview" alt="" height="150px" width="150px" class="p-3">
+                    
+                  </div>
+                  
+
+                </div>
+                
+              </div>
+
+
+              <div class="mt-4 pt-2">
+                <input class="btn btn-primary btn-sm" style="width:100%; border-radius: 20px;" type="submit" value="Save Changes" />
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+    
+
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+font-size: 1rem;
+line-height: 2.15;
+padding-left: .75em;
+padding-right: .75em;
+}
+.card-registration .select-arrow {
+top: 13px;
+}
+
+</style>
+
+  <script>
+    function viewImg(event){
+        document.getElementById('imgview').src=URL.createObjectURL(event.target.files[0])
+    }
+</script>

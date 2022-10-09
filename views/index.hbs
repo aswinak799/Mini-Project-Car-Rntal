@@ -1,14 +1,51 @@
-
+<style>
+  li{
+    transition: .5s all ease;
+  }
+  li:hover{
+    z-index: 1;
+    transform: scale(1.3);
+  }
+</style>
 <link rel='stylesheet' href='/stylesheets/style.css' />
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top ">
-    <div class="container d-flex align-items-center">
+    <div class="container d-flex align-items-center ">
 
       <h1 class="logo me-auto"><a href="/">Symphony Rental</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+        <nav class="navbar navbar-expand-lg" style="margin-left: 40%;">
+  <button class="navbar-toggler"style="border-color: aqua; background: #fff;" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"><i class="bi bi-list"></i></span>
+  </button>
 
-      <nav id="navbar" class="navbar">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active mr-4">
+        <a class="nav-link " href="#hero"><i class='bx bxs-home'>Home</i></a>
+      </li>
+      <li class="nav-item mr-4">
+        <a class="nav-link " href="#about">About</a>
+      </li>
+      <li class="nav-item dropdown mr-4">
+        <a class="nav-link " href="#services">Services</a>
+      </li>
+      <li class="nav-item mr-5">
+        <a class="nav-link " href="#contact">Contact</a>
+      </li>
+      
+    </ul>
+    <a class="btn-get-started float-right" style="border-radius: 10px;" href="/register">Register</a>
+  </div>
+  
+</nav>
+      
+        {{!-- <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
         <ul>
           <li><a class="nav-link scrollto active" href="#hero"><i class='bx bxs-home'></i></i>Home</a></li>
           <li><a class="nav-link scrollto" href="#about">About</a></li>
@@ -22,11 +59,11 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
-    </div>
+    </div> --}}
   </header><!-- End Header -->
 
   <!-- ======= Hero Section ======= -->
-  <section id="hero" class="d-flex align-items-center">
+  <section id="hero" class="d-flex align-items-center" style="height: 700px;">
 
     <div class="container">
       <div class="row">
@@ -128,8 +165,8 @@
           <h2>Services</h2>
         </div>
 
-        <div class="row">
-          <div class="col-xl-3 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+        <div class="row ">
+          <div class=" col-xl-3 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
             <div class="icon-box">
               <div class="icon"><i class='bx bx-file-find'></i></div>
               <h4><a href="">Step 1</a></h4>
@@ -140,7 +177,7 @@
             </div>
           </div>
 
-          <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
+          <div class=" col-xl-3 col-md-6  mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
             <div class="icon-box">
               <div class="icon"><i class='bx bx-car' ></i></i></div>
               <h4><a href="">step 2</a></h4>
@@ -151,14 +188,14 @@
 
           <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0" data-aos="zoom-in" data-aos-delay="300">
             <div class="icon-box">
-              <div class="icon"><i class="fa-duotone fa-steering-wheel"></i></div>
+              <div class="icon"><i class='bx bx-car' ></i></div>
               <h4><a href="">step 3</a></h4>
               <h6>Drive your Vehicle</h6>
               <p>Explore where ever you want to with your loved ones.</p>
             </div>
           </div>
 
-          <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0" data-aos="zoom-in" data-aos-delay="400">
+          <div class=" col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0" data-aos="zoom-in" data-aos-delay="400">
             <div class="icon-box">
               <div class="icon"><i class="fa-solid fa-rotate-left"></i></div>
               <h4><a href="">step 4</a></h4>

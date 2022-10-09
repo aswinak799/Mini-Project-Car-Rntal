@@ -160,9 +160,11 @@ router.get('/delete-car/:id',(req,res)=>{
 //view driver
 router.get('/view-driver/:id',(req,res)=>{
   console.log("haiii");
-  adminHelper.getDriver(req.params.id).then((result)=>{
+  
+  adminHelper.getDriver(req.params.id).then(async(result)=>{
     console.log(result);
-    res.render('admin/view-driver',{'driver':result[0],'admin':true,})
+    let docs = await userHelper.getDocuments(result[0].l_id,"driver")
+    res.render('admin/view-driver',{'driver':result[0],'admin':true,'docs':docs})
   }).catch((err)=>{
     res.redirect('/admin/driver-list')
   })
@@ -178,7 +180,7 @@ router.get('/all-users',async(req,res)=>{
 
 router.get('/view-user/:id',async(req,res)=>{
   let user = await adminHelper.getUser(req.params.id);
-  let docs = await userHelper.getDocuments(user[0].l_id)
+  let docs = await userHelper.getDocuments(user[0].l_id,"customer")
   let dob = user[0].dob;
   user[0].dob = dob.toDateString();
   res.render('admin/view-user',{'admin':true,'customer':user[0],'docs':docs})
