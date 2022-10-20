@@ -66,18 +66,16 @@ h1 {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active ml-5">
-              <a class="btn btn-outline-info" href="/update-profile" style="color: #fff; border-color: aqua; border-radius: 50px; color: black;">Update Profile <span class="sr-only">(current)</span></a>
+              <a class="btn btn-outline-info" href="/driver/update-profile" style="color: #fff; border-color: aqua; border-radius: 50px; color: black;">Update Profile <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item ml-5">
-              <a class="btn btn-outline-info" href="#" style="border-color: aqua; border-radius: 50px;color: black;">MyBookings</a>
+              <a class="btn btn-outline-info" href="/driver/bookings" style="border-color: aqua; border-radius: 50px;color: black;">MyBookings</a>
             </li>
             <li class="nav-item ml-5">
-              <a class="btn btn-outline-info" href="/my-documents" style="border-color: aqua; border-radius: 50px;color: black;">MyDocuments</a>
+              <a class="btn btn-outline-info" href="/driver/my-documents" style="border-color: aqua; border-radius: 50px;color: black;">MyDocuments</a>
             </li>
             
-            <li class="nav-item ml-5">
-              <a class="btn btn-outline-info" href="#" style="border-color: aqua; border-radius: 50px;color: black;">Inbox</a>
-            </li>
+            
           </ul>
           <div class="btn-group mr-5">
           {{#if (eq driver.status "Available") }}
@@ -196,9 +194,9 @@ background-image: linear-gradient(0deg, #fac8d9 0%, #bcfaf8 50%, #fdfdda 100%);
         </a>
       </li>
       <li class="nav-item mt-4">
-        <a class="nav-link " style="border-radius:50px; width: 250px;" href="/admin/feedback">
+        <a class="nav-link " style="border-radius:50px; width: 250px;" href="">
           <i class="bi bi-chat-left-fill"></i>
-          <span>Availability</span>
+          <span>{{driver.status}}</span>
         </a>
       </li>
       <li class="nav-item mt-4">
@@ -213,7 +211,7 @@ background-image: linear-gradient(0deg, #fac8d9 0%, #bcfaf8 50%, #fdfdda 100%);
 
   </aside><!-- End Sidebar-->
 
-  <main id="main" class="main">
+  <main id="main" class="main" style="transition: 0.9s all ease;">
 
     <div class="pagetitle">
       <h1 class="text-center">Driver Dashboard</h1>

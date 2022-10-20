@@ -1,0 +1,170 @@
+<style>
+  #segment{
+    text-align: left;
+    font-weight: 700;
+    color: #000000a8;
+    font-size: 32px;
+    padding-left: 10px;
+  }
+  span{
+    font-weight: 700;
+    color: #000000a8;
+    font-size: 16px;
+  }
+  #amt,h1,h2{
+    font-weight: 700;
+    color: #000000a8;
+    font-size: 28px;
+    transition: 0.7s;
+  }
+  .duration{
+    border-radius: 20px;
+    height: 200px;
+    background: rgb(239, 163, 30);
+    transition: 0.7s;
+    
+
+  }
+  .duration:hover{
+    background: rgb(248, 208, 116);
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+  .cat{
+    
+    margin-right: 10px;
+     border-radius: 20px;
+    height: 200px;
+    background: rgb(218, 215, 215);
+    transition: 0.9s;
+  }
+  .cat:hover{
+    background: rgb(243, 215, 149);
+    cursor: pointer;
+    text-transform: uppercase;
+    transform: scale(1.07);
+  }
+  a{
+    
+    text-decoration: none;
+  }
+  
+</style>
+
+<div class="row mt-5">
+  <div class="ml-3 p-3 mt-2 col-md-2 duration">
+    <h1 style="margin-top:20%;">Total Duration</h1>
+    {{#if (eq days 1) }}
+    <h2 class="mt-3">{{days}} Day</h2>
+    {{else}}
+    <h2 class="mt-3">{{days}} Days</h2>
+    {{/if}}
+    </div>
+    <div class="col-md-8 ml-3">
+      <div class="row p-1">
+        {{#each category}}
+        <a class="col-md mt-2" href="#{{this.segment}}"><div class=" p-3 col-md cat">
+          <img src="/images/{{this.segment}}.png" alt="" style="height:50px ; margin-left: 20%; margin-top: 20%;">
+    <h1 style="margin-top:20%;">{{this.segment}}</h1>
+    
+    </div></a>
+{{/each}}
+
+    
+      </div>
+
+    </div>
+
+</div>
+
+<hr>
+
+
+  {{#each category}}
+           <div class="row">     
+             
+           
+             
+      <div class=" col-md-3 p-3" id="{{this.segment}}">
+        <div class="card bg-warning col-md-12 p-3 mr-2 mt-3" style="border-radius: 25px; height: 90%;" >
+          <img src="/images/{{this.segment}}_search.png"  style="width:100%; margin-top: 25%; ">
+
+
+          <div class="card-body d-flex">
+            <h1 class="card-title" id="segment">{{this.segment}}</h1>
+          </div>
+          
+        </div>
+      </div>
+     
+      
+      
+    
+          
+             
+                
+             
+            {{#each ../cars}}
+             {{#if (eq this.segment ../segment)}}
+             <div class="col-md-3 p-3">
+            <div class="card col-md-12 mr-2 mt-3" style="border-radius: 25px;" >
+              <img src="/car-images/{{this.reg_no}}{{this.car_id}}.jpg"  style="width:100%; height:250px; ">
+  
+  
+              <div class="card-body">
+                <div><h5 class="card-title">{{this.brand}} {{this.model}}</h5></div>
+                <hr>
+                <div class="row"><div class="col-4">
+                    <span><i class="bi bi-fuel-pump-fill"></i> {{this.fuel}}</span>
+                </div>
+                <div class="col-3">
+                    <span><img src="/images/car-seat.png" style="height: 20px; width: 20px;"> {{this.no_of_seat}}</span>
+                </div>
+                <div class="col-5">
+                    <span><img src="/images/transmission.png" style="height: 20px; width: 20px;"> {{this.transmission}}</span>
+                </div>
+                </div>
+                <hr>
+                <div class="row">
+                <div class="col-md"><h2 id="amt"><img src="/images/rupee.png" style="height: 30px; width: 30px;" alt=""> {{this.amount}}</h2></div>
+                <div class="col-md"> {{#if (eq this.status "Available")}}
+                    <a href="/take-driver/{{this.car_id}}"class="btn btn-info float-right">Book now</a>
+                    {{else}}
+                    <h1 class="float-right" style="font-weight:900; font-size: 26px; color:red;">Sold Out</h1>
+                    {{/if}}
+                </div>
+                </div>
+              </div>
+              
+            </div>
+            </div>
+            {{/if}}
+                {{!-- <div class="flip-card mt-5">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img src="/car-images/{{this.reg_no}}{{this.car_id}}.jpg"  style="width:100%; height:250px; ">
+        </div>
+        <div class="flip-card-back">
+          
+          <div><h1 class="card-title">{{this.brand}} {{this.model}}</h1></div>
+          <div><h4>fuel : {{this.fuel}}</h4></div>
+          <div><h4>Transmission : {{this.transmission}}</h4></div>
+          <div><h4>no_of_seat : {{this.no_of_seat}}</h4></div>
+
+
+                <div> {{#if (eq this.status "Available")}}
+                    <a href=""class="btn btn-info">Book now</a>
+                    {{else}}
+                    <button href=""class="btn btn-danger">sold out</button>
+                    {{/if}}
+                </div>
+        </div>
+      </div>
+    </div> --}}
+
+            {{/each}}
+           
+            
+        
+  </div>
+   {{/each}}

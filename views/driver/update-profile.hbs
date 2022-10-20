@@ -32,7 +32,7 @@
 
                   <div class="form-outline datepicker w-100">
                     <label for="birthdayDate" class="form-label">Birthday</label>
-                    <input type="date" class="form-control form-control-lg " id="birthdayDate" name="dob" value="" required>
+                    <input type="date" class="form-control form-control-lg " id="birthdayDate" name="dob" value="{{date}}">
                     
                   </div>
 
@@ -41,8 +41,8 @@
 
                   <div class="form-group">
                     <label for="">Gender</label>
-                  <select class="custom-select custom-select-lg is-valid" name="gender" required>
-                    <option value="{{customer.gender}}">{{driver.gender}}</option>
+                  <select class="custom-select custom-select-lg" name="gender" required>
+                    <option value="{{driver.gender}}">{{driver.gender}}</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                     

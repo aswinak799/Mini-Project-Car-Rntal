@@ -177,5 +177,34 @@ module.exports = {
            })
         })
     },
+    existPhone:(phone)=>{
+        return new Promise((resolve, reject) => {
+            let sql = `select phone from registration where phone = '${phone}'`;
+            database.query(sql,(err,resut)=>{
+                if(!err) resolve(resut);
+            })
+        })
+    },
+    getCategories:()=>{
+        return new Promise((resolve, reject) => {
+            let sql = `select distinct segment from car_table`;
+            database.query(sql,(err,result)=>{
+                if(!err) resolve(result);
+            })
+        })
+    },
+    getCar:(id)=>{
+        return new Promise((resolve, reject) => {
+            let sql = `select * from car_table where car_id=${id}`;
+            database.query(sql,(err,result)=>{
+                if (err) {
+                    reject()
+                }else{
+                    resolve(result[0]);
+                }
+            })
+        })
+
+    }
 
 }

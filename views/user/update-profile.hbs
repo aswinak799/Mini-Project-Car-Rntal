@@ -32,7 +32,7 @@
 
                   <div class="form-outline datepicker w-100">
                     <label for="birthdayDate" class="form-label">Birthday</label>
-                    <input type="date" class="form-control form-control-lg " id="birthdayDate" name="dob" value="" required>
+                    <input type="date" class="form-control form-control-lg "name="dob" id="birthdayDate" max="2001-01-01" value="{{date}}">
                     
                   </div>
 
@@ -83,7 +83,7 @@
                    <div class="form-outline">
                     <label for="exampleFormControlFile1">Image</label>
                     {{!-- <img src="/user-images/{{customer.full_name}}{{customer.user_id}}.jpg" id="imgview" alt="" height="100px" width="150px" class="p-3"> --}}
-                    <input type="file" class="form-control-file" id="exampleFormControlFile1" name="image" onchange="viewImg(event)">
+                    <input type="file" class="form-control-file" accept="image/*;capture=camera"  id="exampleFormControlFile1" name="image" onchange="viewImg(event)">
                   </div>
                   
 
@@ -116,15 +116,7 @@
 </section>
 
 <style>
-    .gradient-custom {
-/* fallback for old browsers */
-background: #3796cc;
-
-/* Chrome 10-25, Safari 5.1-6 */
-
-/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background: linear-gradient(to bottom right, rgb(228, 231, 230), rgb(222, 242, 247))
-}
+   
 
 .card-registration .select-input.form-control[readonly]:not([disabled]) {
 font-size: 1rem;

@@ -1,11 +1,23 @@
 var express = require('express');
 var router = express.Router();
 var userHelper = require('../helper/user-helper');
+var adminHelper = require('../helper/admin-helper');
 var database = require('../config/connection');
 var bcrypt = require('bcrypt');
 const { response } = require('express');
+const fs = require('fs');
 //var validator = require('express-validator');
 let errMessage;
+
+const verifyLogin=(req,res,next)=>{
+  if(req.session.user){
+    if(req.session.user.user_type === 'customer') next();
+    else res.redirect('/login');
+    
+  }else{
+    res.redirect('/login')
+  }
+}
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -20,7 +32,12 @@ router.get('/register',(req,res)=>{
 
 })
 router.post('/register',async(req,res)=>{
-  console.log(req.body);
+  let user_ph = await userHelper.existPhone(req.body.phone);
+  if(user_ph.length >0){
+    console.log(user_ph);
+    return res.status(500).send('<script>alert("Phone number already exists");window.location="/register"</script>')
+  }else{
+  
         let fname = req.body.fname;
         let email = req.body.email;
         let dob = req.body.dob;
@@ -56,7 +73,7 @@ router.post('/register',async(req,res)=>{
                   if(err){
                     return res.status(500).send(err);
                   }
-                  document.mv('./public/user-document/'+fname+docs+result.insertId+'.jpg',(err,done)=>{
+                  document.mv('./public/user-document/'+docs+result.insertId+'.jpg',(err,done)=>{
                     if(err){
                       return res.status(500).send(err);
                     }else{
@@ -78,7 +95,7 @@ router.post('/register',async(req,res)=>{
       }
     })
             
-   
+  }
     
     })
     
@@ -109,7 +126,7 @@ router.post('/login',(req,res)=>{
 })
 
 //user home
-router.get('/user-home',(req,res)=>{
+router.get('/user-home',verifyLogin,(req,res)=>{
   console.log(req.session.user);
   let user = req.session.user;
  
@@ -119,10 +136,17 @@ router.get('/user-home',(req,res)=>{
   res.render('user/user-home',{'user':true,'customer':user})
 })
 //update profile
-router.get('/update-profile',(req,res)=>{
-  res.render('user/update-profile',{'user':true,'customer':req.session.user})
+router.get('/update-profile',verifyLogin,(req,res)=>{
+  
+  let dob = req.session.user.dob
+  const[date,time] = dob.split('T')
+  console.log(time);
+  res.render('user/update-profile',{'user':true,'customer':req.session.user,'date':date})
 })
-router.post('/update-profile',(req,res)=>{
+router.post('/update-profile',async(req,res)=>{
+  let name = await req.session.user.full_name;
+  let id = await req.session.user.user_id;
+  // console.log(name+id,'***************************');
   req.session.user.full_name=req.body.fname;
   req.session.user.email=req.body.email;
   req.session.user.dob=req.body.dob;
@@ -141,6 +165,13 @@ router.post('/update-profile',(req,res)=>{
 
     })
     
+  }else{
+    fs.rename('./public/user-images/'+name+id+'.jpg','./public/user-images/'+req.body.fname+id+'.jpg', (err)=>{
+      if(err){
+        
+        return res.status(500).send('Updation Faild')
+      }
+    })
   }
 
   userHelper.updateUser(req.session.user.user_id,req.session.user.l_id,req.body).then(()=>{
@@ -151,25 +182,25 @@ router.post('/update-profile',(req,res)=>{
   })
 })
 //view documents
-router.get('/my-documents',(req,res)=>{
+router.get('/my-documents',verifyLogin,(req,res)=>{
   userHelper.getDocuments(req.session.user.l_id,req.session.user.user_type).then((response)=>{
     return res.render('user/my-documents',{'user':true,'docs':response,'customer':req.session.user});
   })
   
 })
 //add document
-router.get('/add-document',(req,res)=>{
+router.get('/add-document',verifyLogin,(req,res)=>{
   res.render('user/add-document',{'user':true,'customer':req.session.user})
 })
 router.post('/add-document',async(req,res)=>{
   // let totalDocs = await userHelper.getDocumentLength(req.session.user.user_id)
   // console.log(totalDocs);
-  let fname = req.session.user.full_name;
+  // let fname = req.session.user.full_name;
   let docs = req.body.Document;
   let user_id = req.session.user.user_id;
   if(req.files){
     let document = req.files.document;
-    document.mv('./public/user-document/'+fname+docs+user_id+'.jpg',(err,done)=>{
+    document.mv('./public/user-document/'+docs+user_id+'.jpg',(err,done)=>{
       if(err){
         return res.status(500).send(err);
       }
@@ -184,6 +215,59 @@ router.post('/add-document',async(req,res)=>{
     })
 })
 
+//booking form
+router.get('/booking-form',verifyLogin,(req,res)=>{
+  res.render('user/booking-form',{'customer':req.session.user,"user":true})
+})
+
+router.get('/cars',async(req,res)=>{
+
+  // let cate =[{cname:'Hatchback'},
+  //   {cname:'Sedan'},
+  //   {cname:'SUV'},
+  //   {cname:'MUV'},
+  //   {cname:'Luxury'}
+  // ]
+  let cate = await userHelper.getCategories()
+  console.log(cate);
+  let cars =await adminHelper.getCarsOrderby()
+  let l = cars.length;
+  for (let i = 0; i < l; i++) {
+    cars[i].amount = cars[i].amount * req.session.rent_days;
+    
+    
+  }
+  console.log(cars);
+  res.render('user/car-lists',{'user':true,'customer':req.session.user,'days':req.session.rent_days,'cars':cars,'category':cate})
+  // req.session.rent_days = null;
+})
+
+router.post('/car-search',async(req,res)=>{
+  
+  let dropoff = req.body.dropoff;
+  let picup = req.body.picup;
+  let days = parseInt(new Date(dropoff) - new Date(picup)) / (1000 * 60 * 60 * 24);
+  req.session.rent_days = days;
+  req.session.picup = picup;
+  req.session.dropoff = dropoff; 
+  console.log(req.session.rent_days);
+  res.redirect('/cars')
+})
+router.get('/take-driver/:id',(req,res)=>{
+  req.session.car_id = req.params.id;
+  res.render('user/driver-choice',{'customer':req.session.user,'user':true,})
+  console.log(req.params.id);
+
+});
+
+router.get('/checkout',async(req,res)=>{
+  // console.log(req.session.car_id);
+  let car = await userHelper.getCar(req.session.car_id).catch(()=>{
+    return res.status(500).send('Something wrong')
+  });
+  let totalAmt = req.session.rent_days * car.amount; 
+  res.render('user/checkout',{'customer':req.session.user,'user':true,'car':car,'amount':totalAmt,'date':{'picup':req.session.picup,'drop':req.session.dropoff,'days':req.session.rent_days}})
+});
 
 
 //logout section

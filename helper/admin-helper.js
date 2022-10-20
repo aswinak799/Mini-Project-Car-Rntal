@@ -5,17 +5,20 @@ var bcrypt = require('bcrypt');
 
 module.exports = {
     addCar:(data)=>{
+        console.log(data);
         var brand = data.brand;
         var model = data.model;
         var amount = data.amount;
         var fuel = data.fuel;
         var reg = data.register_no;
-        var type = data.type;
+        var segment = data.segment;
         var kms = data.kms;
+        let transmission = data.transmission;
+        let seat = data.seat;
         return new Promise((resolve, reject) => {
-            var sql = `INSERT INTO car_table(brand,model,amount,fuel,reg_no,type,kms) values("${brand}","${model}","${amount}","${fuel}","${reg}","${type}","${kms}")`
+            var sql = `INSERT INTO car_table(brand,model,amount,fuel,reg_no,segment,kms,transmission,no_of_seat) values("${brand}","${model}","${amount}","${fuel}","${reg}","${segment}","${kms}","${transmission}","${seat}")`
             database.query(sql,(err,result)=>{
-                if(err) reject({status:true});
+                if(err) reject();
                 else{
                     resolve(result)
                 }
@@ -183,5 +186,17 @@ module.exports = {
                 else resolve(result);
             })
         })
-    }
+    },
+    getCarsOrderby:()=>{
+        return new Promise((resolve, reject) => {
+           var sql = `select * from car_table order by segment`;
+            database.query(sql,(err,result)=>{
+                if(err) throw err;
+                else{
+                    //console.log(result);
+                    resolve(result)
+                }
+            })
+        })
+    },
 }

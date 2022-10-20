@@ -146,7 +146,7 @@ background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 50%, #ffffed 100%);
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar mt-3 " style="background: linear-gradient(to bottom right, rgb(244, 244, 244), rgb(250, 226, 226));">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+    <ul class="sidebar-nav mt-5" id="sidebar-nav">
 
       <li class="nav-item mt-1">
         <a class="nav-link" style="border-radius:50px; width: 250px;" href="/user-home">
@@ -170,23 +170,18 @@ background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 50%, #ffffed 100%);
       </li>
 
       <li class="nav-item mt-4">
-        <a class="nav-link " style="border-radius:50px; width: 250px;" href="/admin/carlist">
+        <a class="nav-link " style="border-radius:50px; width: 250px;" href="/booking-form">
           <i class='bx bxs-car'></i>
-          <span>Car List</span>
+          <span>New Booking</span>
         </a>
       </li>
 
-      <li class="nav-item mt-4">
-        <a class="nav-link " style="border-radius:50px; width: 250px;" href="/admin/driver-list">
-          <i class="bi bi-person-workspace"></i>
-          <span>Driver List</span>
-        </a>
-      </li>
+      
 
       <li class="nav-item mt-4">
         <a class="nav-link " style="border-radius:50px; width: 250px;" href="/admin/bookings">
           <i class="bi bi-journal-richtext"></i>
-          <span>Bookings</span>
+          <span>My Bookings</span>
         </a>
       </li>
       <li class="nav-item mt-4">
@@ -213,10 +208,10 @@ background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 50%, #ffffed 100%);
 
   </aside><!-- End Sidebar-->
 
-  <main id="main" class="main">
+  <main id="main" class="main" style="transition: 0.9s all ease;">
 
     <div class="pagetitle">
-      <h1 class="text-center">Welcome {{customer.full_name}}</h1>
+      <h1 class="text-center mt-5 mb-3">Welcome {{customer.full_name}}</h1>
       <nav>
         <ol class="breadcrumb text-center">
           <li class="breadcrumb-item"><a href="">Home</a></li>
@@ -254,3 +249,4 @@ background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 50%, #ffffed 100%);
 
     </section>
     
+   

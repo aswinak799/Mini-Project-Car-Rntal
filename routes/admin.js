@@ -6,6 +6,7 @@ var adminHelper = require('../helper/admin-helper');
 var userHelper = require('../helper/user-helper');
 let errMessage = false;
 let Message =false;
+var car_err = false;
 const verifyLogin=(req,res,next)=>{
   if(req.session.user){
     if(req.session.user.user_type === 'admin') next();
@@ -38,10 +39,12 @@ router.get('/carlist',verifyLogin,async(req,res)=>{
   res.render('admin/carlist',{'Cars':cars,'err':errMessage,'msg':Message,'admin':true})
   errMessage=false;
   Message=false;
+  
 })
 //add cars to the list
 router.get('/add-car',verifyLogin,(req,res)=>{
-  res.render('admin/add-car',{'admin':true})
+  res.render('admin/add-car',{'admin':true,'car_err':car_err})
+  car_err=false;
 })
 
 router.post('/add-car',(req,res)=>{
@@ -58,7 +61,8 @@ router.post('/add-car',(req,res)=>{
 
     })
     console.log(response);
-  }).catch((err)=>{
+  }).catch(()=>{
+    car_err=true;
     res.redirect('/admin/add-car')
   })
   
@@ -98,7 +102,7 @@ router.post('/add-driver',(req,res)=>{
     console.log(response);
     res.redirect('/admin/driver-list')
   }).catch((status)=>{
-    console.log(status);
+    return res.status(500).send('<script>alert("Email already exists");window.location="/admin/add-driver"</script>')
   })
 })
 //edit driver status
@@ -114,7 +118,7 @@ router.get('/driver-status',(req,res)=>{
 //edit car
 router.get('/edit-car/:id',(req,res)=>{
   adminHelper.getAcar(req.params.id).then((response)=>{
-    res.render('admin/edit-car',{'car':response})
+    res.render('admin/edit-car',{'car':response,'admin':true})
   })
   console.log(req.params.id);
   
@@ -171,14 +175,14 @@ router.get('/view-driver/:id',(req,res)=>{
   
 })
 // view all users
-router.get('/all-users',async(req,res)=>{
+router.get('/all-users',verifyLogin,async(req,res)=>{
   let users =await adminHelper.getAllUsers().catch(()=>{
     return res.status(500).send("<h1>Try again</h1>")
   })
   res.render('admin/all-users',{'admin':true,'users':users})
 })
 
-router.get('/view-user/:id',async(req,res)=>{
+router.get('/view-user/:id',verifyLogin,async(req,res)=>{
   let user = await adminHelper.getUser(req.params.id);
   let docs = await userHelper.getDocuments(user[0].l_id,"customer")
   let dob = user[0].dob;
@@ -186,6 +190,15 @@ router.get('/view-user/:id',async(req,res)=>{
   res.render('admin/view-user',{'admin':true,'customer':user[0],'docs':docs})
 })
 
+
+router.get('/bookings',(req,res)=>{
+  res.send("<h1 align='center'>Bookings</h1>");
+})
+
+//feedback
+router.get('/feedback',(req,res)=>{
+  res.send("<h1 align='center'>Feedbacks</h1>");
+})
 router.get('/logout',(req,res)=>{
   req.session.user=null
   req.session.userloggedIn=false

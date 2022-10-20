@@ -1,6 +1,6 @@
 
 
-<section class="vh-100 gradient-custom">
+<section class=" gradient-custom">
   <div class="container py-5 h-100">
     <div class="row justify-content-center align-items-center h-100">
       <div class="col-12 col-lg-9 col-xl-7">
@@ -78,18 +78,42 @@
                 <div class="col-md-6 mb-4 pb-2">
 
                   <div class="form-outline">
-                    <label class="form-label" for="address">Car type</label>
-                    <input type="text" id="type" class="form-control form-control-lg" name="type" value="{{car.type}}" disabled/>
+                    <label class="form-label" for="address">Segment</label>
+                    <input type="text" id="type" class="form-control form-control-lg" name="type" value="{{car.segment}}" disabled/>
                     
                   </div>
 
                 </div>
                 <div class="col-md-6 mb-4 pb-2">
 
+                  <div class="form-outline">
+                    <label class="form-label" for="address">Transmission</label>
+                    <input type="text" id="type" class="form-control form-control-lg" name="transmission" value="{{car.transmission}}" disabled/>
+                    
+                  </div>
+
+                </div>
+                
+
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-4 pb-2">
+
+
                    <div class="form-group">
                     <label for="exampleFormControlFile1">Image</label>
-                    <input type="file" class="form-control-file" id="img" name="image" value="/car-images/{{car.reg_no}}{{car.car_id}}.jpg">
+                    <input type="file" class="form-control-file" id="img" name="image" onchange="viewImg(event)">
                   </div>
+
+                </div>
+                <div class="col-md-6 mb-4 pb-2">
+
+                   <div class="form-outline">
+                    
+                    <img src="/car-images/{{car.reg_no}}{{car.car_id}}.jpg" id="imgview" alt="" height="150px" width="150px" class="p-3">
+                    
+                  </div>
+                  
 
                 </div>
               </div>
@@ -108,21 +132,16 @@
     </div>
   </div>
 </section>
+ <script>
+    function viewImg(event){
+        document.getElementById('imgview').src=URL.createObjectURL(event.target.files[0])
+    }
+</script>
 
 <style>
     .btn-lg{
         width: 100%;
     }
-    .gradient-custom {
-/* fallback for old browsers */
-background: #f093fb;
-
-/* Chrome 10-25, Safari 5.1-6 */
-background: -webkit-linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1));
-
-/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background: linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1))
-}
 
 .card-registration .select-input.form-control[readonly]:not([disabled]) {
 font-size: 1rem;

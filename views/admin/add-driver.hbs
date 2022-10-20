@@ -14,7 +14,7 @@
 
                   <div class="form-outline">
                     <label class="form-label" for="firstName">Name</label>
-                    <input type="text" id="name" class="form-control form-control-lg is-valid" name="name" required>
+                    <input type="text" id="name" class="form-control form-control-lg" name="name" required>
                     
                   </div>
 
@@ -23,7 +23,7 @@
 
                   <div class="form-outline">
                     <label class="form-label" for="email"> Email</label>
-                    <input type="email" id="model" class="form-control form-control-lg is-valid" name="email" required>
+                    <input type="email" id="model" class="form-control form-control-lg " name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
                     <div class="invalid-feedback">Example invalid custom select feedback</div>
                   </div>
 
@@ -49,7 +49,7 @@
 
                   <div class="form-outline">
                     <label class="form-label" for="">Phone</label>
-                    <input type="phone" id="phone" class="form-control form-control-lg is-valid" name="phone" required>
+                    <input type="tel" id="phone" class="form-control form-control-lg" name="phone" title="Please enter valid mobile number" required pattern="[0-9]{10}">
                     
                   </div>
 
@@ -61,7 +61,7 @@
 
                   <div class="form-outline">
                     <label class="form-label" for="">Experience</label>
-                    <input type="text" id="exp" class="form-control form-control-lg is-valid" name="exp" required>
+                    <input type="text" id="exp" class="form-control form-control-lg" name="exp" required>
                     
                   </div>
 
@@ -71,7 +71,7 @@
 
                   <div class="form-outline">
                     <label class="form-label" for="dob">Date of birth</label>
-                    <input type="date" id="dob" class="form-control form-control-lg is-valid" name="dob" required>
+                    <input type="date" id="dob" class="form-control form-control-lg" max="2001-01-01" name="dob" required>
                     
                   </div>
 
@@ -82,7 +82,7 @@
                 <div class="col-md-12 mb-4 pb-2">
                   <div class="form-outline">
                     <label class="form-label" for="address">Password</label>
-                    <input type="password" id="pas" class="form-control form-control-lg is-valid" name="passwd" required> 
+                    <input type="password" id="pas" class="form-control form-control-lg" name="passwd" title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"> 
                   </div>
                 </div>
               </div>
@@ -90,7 +90,7 @@
                   <div class="col-md-12 mb-4 pb-2">
                   <div class="form-group">
                     <label for="">Address</label>
-                    <textarea class="form-control form-control-lg is-valid" id="exampleFormControlTextarea1" rows="3" name="address" required></textarea>
+                    <textarea class="form-control form-control-lg" id="exampleFormControlTextarea1" rows="3" name="address" required></textarea>
                   </div>
                 </div>
                 </div>
