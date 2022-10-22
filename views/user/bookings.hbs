@@ -1,0 +1,132 @@
+<style type="text/css">
+		/*body
+		{
+		    counter-reset: Serial;          
+		}
+
+		tr td:first-child:before
+		{
+		  counter-increment: Serial;      
+		  content: counter(Serial); 
+		}*/
+    .btn{
+      border-radius: 15px;
+    }
+    .card{
+      padding: 20px;
+      background: rgb(238, 238, 238);
+      border-radius: 30px;
+      
+    }
+    h1{
+      font-weight: 700;
+      color: rgba(87, 94, 98, 0.647);
+      transition: 2s;
+    }
+    h1:hover{
+      color: rgb(30, 97, 99);
+      transform: scale(1.09);
+      cursor: pointer;
+    }
+    
+	</style>
+<section>
+    <div class="container">
+        <h1 class="text-center">My Bookings</h1>
+
+        <div class="row p-3">
+            
+        </div>
+<div class="mt-3 col-md-12">
+        <div class="col-12">
+        <div class="card recent-sales overflow-auto">
+
+          {{! <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                  </ul>
+                </div> }}
+
+          <div class="card-body">
+            <h5 class="card-title">All-Bookings <span>| All</span></h5>
+            <table class="table-borderless mt-5" id="productstable">
+  <thead>
+    <tr>
+      
+      {{!-- <th scope="col">Slno</th> --}}
+      <th>Booking_Id</th>
+      <th scope="col">pickup</th>
+      <th scope="col">Dropoff</th>
+      <th scope="col">Time</th>
+      <th>Car Details</th>
+      <th scope="col">Status</th>
+      <th scope="col">Amount</th>
+      <th>Driver</th>
+      <th scope="col">Option</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each booking}}
+    <tr>
+      {{!-- <td></td> --}}
+      <td>{{this.booking_id}}</td>
+      <td>{{this.picup}}</td>
+      <td>{{this.dropoff}}</td>
+      <td>{{this.time}}</td>
+      <td>{{this.brand}} {{this.model}}</td>
+      <td>{{this.b_status}}</td>
+      <td>{{this.amount}}</td>
+      <td>
+        {{#if this.d_id}}
+        Yes
+        {{else}}
+           No
+        {{/if}}
+      </td>
+      {{!-- <td><img src="/car-images/{{this.reg_no}}{{this.car_id}}.jpg" alt="" width="50px" height="50px"> </td> --}}
+      <td>
+        <a href="/view-booking?car_id={{this.car_id}}&driver_id={{this.d_id}}&booking_id={{this.booking_id}}" class="btn btn-outline-info btn-sm" style="width: 100px; border-radius: 16px;">View</a>
+        {{!-- <a href="/admin/delete-car/{{this.car_id}}" class="btn btn-danger btn-sm" onclick="return confirm('Are you want to delete {{this.Name}} ?')">Delete</a> --}}
+          
+      </td>
+    </tr>
+   
+    {{/each}}
+    
+  </tbody>
+</table>
+          </div>
+
+        </div>
+      </div>
+</div>
+    </div>
+     
+</section>
+<script>
+  $(document).ready( function () {
+    $('#productstable').DataTable();
+} );
+</script>
+
+{{!-- delimiter |
+
+CREATE EVENT Pending_event
+    ON SCHEDULE
+      EVERY 5 MINUTE 
+    
+    DO
+      BEGIN
+        DELETE FROM rental_system.booking_table WHERE b_status= "Pending" and time < DATE_SUB( CURRENT_TIME(), INTERVAL 10 MINUTE);
+ 
+      END |
+
+delimiter ; --}}
+{{!-- DELETE FROM booking_table WHERE b_status= "Pending" and time < DATE_SUB( CURRENT_TIME(), INTERVAL 10 MINUTE) --}}

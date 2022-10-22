@@ -255,11 +255,12 @@ router.post('/car-search',async(req,res)=>{
 })
 router.get('/take-driver/:id',(req,res)=>{
   req.session.car_id = req.params.id;
+  
   res.render('user/driver-choice',{'customer':req.session.user,'user':true,})
   console.log(req.params.id);
 
 });
-
+//without driver
 router.get('/checkout',async(req,res)=>{
   // console.log(req.session.car_id);
   let car = await userHelper.getCar(req.session.car_id).catch(()=>{
@@ -269,6 +270,123 @@ router.get('/checkout',async(req,res)=>{
   res.render('user/checkout',{'customer':req.session.user,'user':true,'car':car,'amount':totalAmt,'date':{'picup':req.session.picup,'drop':req.session.dropoff,'days':req.session.rent_days}})
 });
 
+router.post('/checkout',(req,res)=>{
+
+  let bookingDetails;
+ if(req.session.dr_id){
+  bookingDetails = {
+    car_id : req.session.car_id,
+   user_id : req.session.user.user_id,
+   picup : req.session.picup,
+   dropoff : req.session.dropoff,
+   days : req.session.rent_days,
+   amount : req.body.amount,
+   driver : req.session.dr_id,
+
+ };
+
+ }else{
+  bookingDetails = {
+    car_id : req.session.car_id,
+   user_id : req.session.user.user_id,
+   picup : req.session.picup,
+   dropoff : req.session.dropoff,
+   days : req.session.rent_days,
+   amount : req.body.amount,
+
+ };
+
+ }
+  
+
+
+
+
+
+  userHelper.placeOrder(bookingDetails).then((orderId)=>{
+    req.session.b_id=orderId;
+    userHelper.changeCarStatus(bookingDetails.car_id).then(()=>{
+      userHelper.generateRazorpay(req.session.b_id,bookingDetails.amount).then((response)=>{
+        res.json(response)
+      })
+
+
+    })
+
+  }).catch(()=>{
+    return res.status(500).send('<h1>Something Wrong</h1>');
+  })
+
+});
+
+//with driver
+
+router.get('/checkout-with-driver/:d_id',async(req,res)=>{
+  req.session.dr_id = req.params.d_id;
+  // console.log(req.session.car_id);
+  let car = await userHelper.getCar(req.session.car_id).catch(()=>{
+    return res.status(500).send('Something wrong')
+  });
+  let rentAmt = req.session.rent_days * car.amount;
+  let totalAmt = req.session.rent_days * car.amount + req.session.rent_days * 700;
+  let drAmt =  req.session.rent_days * 700;
+  res.render('user/checkout',{'customer':req.session.user,'user':true,drv:drAmt,'car':car,'amount':totalAmt,carAmt:rentAmt,'date':{'picup':req.session.picup,'drop':req.session.dropoff,'days':req.session.rent_days}})
+});
+
+
+
+router.post('/verify-payment',async(req,res)=>{
+  // console.log(req.body);
+  console.log("****************************");
+  console.log(req.body)
+  userHelper.verifyPayment(req.body).then(()=>{
+    
+    console.log(req.body);
+    userHelper.changeBookingStatus(req.session.b_id).then(()=>{
+      
+      res.json({status:true})
+    })
+  }).catch((err)=>{
+    console.log(err);
+    res.json({status:'payment Faild'})
+  })
+
+});
+
+router.get('/payment-success',(req,res)=>{
+  res.send('<script>alert("Payment Success");window.location="/user-home"</script>')
+})
+
+//select select-driver
+router.get('/select-driver',(req,res)=>{
+  adminHelper.getAllDrivers().then((response)=>{
+    res.render('user/driver-list',{drivers:response,user:true,customer:req.session.user})
+  })
+})
+
+
+router.get('/bookings',(req,res)=>{
+  userHelper.getBookings(req.session.user.user_id).then((bookings)=>{
+    console.log(bookings);
+    res.render('user/bookings',{booking:bookings,user:true,customer:req.session.user})
+  })
+  
+})
+
+
+//view bookings
+router.get('/view-booking',async(req,res)=>{
+  let driver;
+  if (req.query.driver_id) {
+    
+   driver =await adminHelper.getDriver(req.query.driver_id);
+   console.log(driver);
+  }
+  let rent_details =await userHelper.getBooking(req.query.booking_id)
+  let car =await userHelper.getCar(req.query.car_id)
+  res.render('user/view-booking',{car:car,emp:driver[0],user:true,customer:req.session.user,booking:rent_details})
+ 
+})
 
 //logout section
 router.get('/logout',(req,res)=>{

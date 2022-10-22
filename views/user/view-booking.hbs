@@ -1,0 +1,135 @@
+<style>
+    h2{
+        margin-top: 10%;
+    }
+    h1{
+      font-weight: 700;
+      color: rgba(3, 12, 86, 0.647);
+      transition: 2s;
+    }
+    h1:hover{
+      color: rgb(30, 97, 99);
+      transform: scale(1.09);
+      cursor: pointer;
+    }
+    .row span{
+        font-weight: 700;
+        font-size: 20px;
+        color: rgba(0, 72, 113, 0.647);
+    }
+    .segment{
+        padding: 1rem;
+        margin-top: 5%;
+        border-radius: 10px;
+        background: rgb(251, 192, 16);
+        text-align: center;
+    }
+</style>
+<h1 class="text-center">Booking Details</h1>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card col-md-12 mr-2 mt-3" style="border-radius: 25px; height:93% ;" >
+              <img src="/car-images/{{car.reg_no}}{{car.car_id}}.jpg"  style="width:100%; height:250px; margin-top: 2rem;">
+  
+  
+              <div class="card-body">
+                <div><h1 >{{car.brand}} {{car.model}}</h1></div>
+                <hr>
+                <div class="row"><div class="col-4">
+                    <span><img src="/images/fuel.png" style="height: 40px; width: 40px;"> {{car.fuel}}</span>
+                </div>
+                <div class="col-3">
+                    <span><img src="/images/car-seat.png" style="height: 40px; width: 40px;"> {{car.no_of_seat}}</span>
+                </div>
+                <div class="col-5">
+                    <span><img src="/images/transmission.png" style="height: 40px; width: 40px;"> {{car.transmission}}</span>
+                </div>
+                </div>
+                <hr>
+                <div class="row">
+                <div class="col-md"><h2 id="amt" ><img src="/images/rupee.png" style="height: 30px; width: 30px; " alt=""> {{car.amount}}</h2></div>
+                    <div class="col-md container">
+                        <div class="segment">
+                            <h4>{{car.segment}}</h4>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              
+            </div>
+
+    </div>
+    {{#if emp}}
+       
+    
+    <div class="col-md-4">
+        
+            <div class="card col-md-12 mr-2 mt-3 p-2" style="border-radius: 25px;" >
+              <img src="/driver-images/{{emp.name}}{{emp.driver_id}}.jpg"  style="width:100%; height:250px; border-radius: 25px;">
+  
+  
+              <div class="card-body">
+                <div><h1 >{{emp.name}}</h1></div>
+                
+                </div>
+                <hr>
+                
+                
+                <div class="col-12">
+                    <span class="span"><img src="/images/email.png" style="height: 30px; width: 30px;"> {{emp.email}}</span>
+                </div>
+                <div class="col-12 mt-3">
+                    <span class="span"><img src="/images/mobile-phone.png" style="height: 30px; width: 30px;"> {{emp.phone}}</span>
+                </div>
+                
+                <hr>
+                <div class="row p-3">
+                    <div class="col-md"><h2 id="amt" ><img src="/images/rupee.png" style="height: 30px; width: 30px; " alt=""> {{emp.charge}}</h2></div>
+                <div class="col-md"><a id="amt" href="tel:{{emp.phone}}"><img src="/images/phone.png" style="height: 70px; width: 70px;" alt=""></a></div>
+                <div class="col-md">
+                    <a href="https://api.whatsapp.com/send?phone={{emp.phone}}"><img src="/images/whatsapp.png" style="height: 70px; width: 70px;" alt=""></a>
+
+                </div>
+                
+                
+                </div>
+              </div>
+              
+            
+    </div>
+    {{/if}}
+    <div class="col-md-4">
+          <div class="card col-md-12 mr-2 mt-3 p-2" style="border-radius: 25px;" >
+              {{!-- <img src="/driver-images/{{emp.name}}{{emp.driver_id}}.jpg"  style="width:100%; height:250px; border-radius: 25px;"> --}}
+  
+  
+              <div class="card-body">
+                <div><h1>Rent Details</h1></div>
+                
+                </div>
+                <hr>
+                
+                
+                <div class="col-12">
+                    <span class="span"><img src="/images/arrow.gif" style="height: 40px; width: 40px;"> Picup : {{booking.picup}}</span>
+                </div>
+                <div class="col-12 mt-3">
+                    <span class="span"><img src="/images/arrow.gif" style="height: 40px; width: 40px;">Dropoff : {{booking.dropoff}}</span>
+                </div>
+                <div class="col-12 mt-3">
+                    <span class="span"><img src="/images/arrow.gif" style="height: 40px; width: 40px;">Duration : {{booking.days}} days</span>
+                </div>
+                <div class="col-12 mt-3">
+                    <span class="span"><img src="/images/arrow.gif" style="height: 40px; width: 40px;">Status : {{booking.b_status}}</span>
+                </div>
+                <div class="col-12 mt-3">
+                    <span class="span"><img src="/images/arrow.gif" style="height: 40px; width: 40px;"> {{booking.b_status}}</span>
+                </div>
+                
+                <hr>
+                
+              </div>
+    </div>
+
+</div>

@@ -60,6 +60,16 @@
 
                 </div>
                    <hr>
+                   
+                   {{#if drv}}
+                   <div class="row">
+                        <h4 class=" col">Driver charge</h4> <div class="col"></div> <h4 class="col"><img src="/images/rupee.png" style="height: 30px; width: 30px;" alt="">{{drv}}</h4>
+                        </div>
+                        <div class="row mt-3">
+                        <h4 class=" col">Rent Amount</h4> <div class="col"></div> <h4 class="col"><img src="/images/rupee.png" style="height: 30px; width: 30px;" alt="">{{carAmt}}</h4>
+                        </div>
+                    {{/if}}
+
                    <div class="row mt-3">
                     <h4 class=" col">Ammount Payable</h4> <div class="col"></div> <h4 class="col"><img src="/images/rupee.png" style="height: 30px; width: 30px;" alt=""> {{amount}}</h4>
 
@@ -70,14 +80,81 @@
 
 
                    </div>
-                     
-                      <a href="" class="btn btn-success btn-lg mt-3" style="width: 100%; background:  #00A87E; font-weight: 500;"> Pay & Book</a>
-
+                     <form action="" method="post" id="checkout-form">
+                     <input type="number" value="{{amount}}" name="amount" hidden>
+                      {{!-- <a href="" class="btn btn-success btn-lg mt-3" style="width: 100%; background:  #00A87E; font-weight: 500;"> Pay & Book</a> --}}
+                      <input class="btn btn-success btn-lg mt-3" type="submit" value=" Pay & Book" style="width: 100%; background:  #00A87E; font-weight: 500;">
+                    </form>
               </div>
 
 
               </div>
             </div>
+            <script>
+                $("#checkout-form").submit((e)=>{
+                    e.preventDefault()
+                    $.ajax({
+                    url:'/checkout',
+                    method:'post',
+                    data:$('#checkout-form').serialize(),
+                    success:(response)=>{
+                    
+                        
+                        razorpayPayment(response)
+                        
+                        
+                        
+                    }
+                    })
+                })
+
+                function razorpayPayment(order){
+                    var options = {
+                    "key": "rzp_test_RDsdaax6UE4Dlk", // Enter the Key ID generated from the Dashboard
+                    "amount":order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                    "currency": "INR",
+                    "name": "ASWIN A K",
+                    "description": "Test Transaction",
+                    "image": "https://example.com/your_logo",
+                    "order_id":order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                    "handler": function (response){
+                        
+                        verifyPayment(response,order)
+                    },
+                    "prefill": {
+                        "name": "Gaurav Kumar",
+                        "email": "gaurav.kumar@example.com",
+                        "contact": "9999999999"
+                    },
+                    "notes": {
+                        "address": "Razorpay Corporate Office"
+                    },
+                    "theme": {
+                        "color": "#3399cc"
+                    }
+                };
+                var rzp1 = new Razorpay(options);
+                rzp1.open();
+                }
+
+                function verifyPayment(payment,order){
+                    $.ajax({
+                    url:'/verify-payment',
+                    data:{
+                        payment,
+                        order
+                    },
+                    method:'post',
+                    success:(response)=>{
+                        if(response.status){
+                        location.href = "/payment-success"
+                        }else{
+                        alert("payment faild")
+                        }
+                    }
+                    })
+                }
+            </script>
             
 
 

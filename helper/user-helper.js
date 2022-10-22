@@ -1,6 +1,12 @@
 const { Result } = require('express-validator');
 var database = require('../config/connection');
 var bcrypt = require('bcrypt');
+const Razorpay = require('razorpay');
+
+var instance = new Razorpay({
+    key_id: 'rzp_test_RDsdaax6UE4Dlk',
+    key_secret: 'BA4UgUCtVEmV1wImHL0h2vTr',
+  });
 
 
 
@@ -205,6 +211,115 @@ module.exports = {
             })
         })
 
-    }
+    },
+    placeOrder:(data)=>{
+        return new Promise((resolve, reject) => {
+            // let values = [data.car_id,data.user_id,data.picup,data.dropoff,data.days,data.amount];
+            let sql;
+           if (data.driver) {
+            sql = `insert into booking_table(c_id,u_id,picup,dropoff,days,amount,d_id) values('${data.car_id}','${data.user_id}','${data.picup}','${data.dropoff}','${data.days}','${data.amount}','${data.driver}')`;
+           }else{
+            sql = `insert into booking_table(c_id,u_id,picup,dropoff,days,amount) values('${data.car_id}','${data.user_id}','${data.picup}','${data.dropoff}','${data.days}','${data.amount}')`;
+
+           }
+            // sql = `insert into booking_table(c_id,u_id,picup,dropoff,days,amount) values('${data.car_id}','${data.user_id}','${data.picup}','${data.dropoff}','${data.days}','${data.amount}')`;
+            database.query(sql,(err,result)=>{
+                if (err) {
+                    reject();
+                }else{
+                    
+                    resolve(result.insertId);
+                }
+            })
+        })
+        
+
+    },
+    generateRazorpay:async(orderID,total)=>{
+        total = parseInt(total);
+        console.log(total," ************");
+        return new Promise((resolve, reject) => {
+            var options = {
+                amount: total*100,
+                currency: "INR",
+                receipt:''+orderID
+            };
+
+           
+            instance.orders.create(options,(err,order)=>{
+                if(err){
+                    throw err;
+                }else{
+                    console.log('new order:',order);
+                    resolve(order)
+                }
+                
+            })
+        })
+    },
+
+    verifyPayment:(details)=>{
+        return new Promise((resolve, reject) => {
+            const crypto = require('crypto')
+            let hmac = crypto.createHmac('sha256','BA4UgUCtVEmV1wImHL0h2vTr')
+            hmac.update(details['payment[razorpay_order_id]']+'|'+details['payment[razorpay_payment_id]']);
+            hmac=hmac.digest('hex')
+            if(hmac==details['payment[razorpay_signature]']){
+                resolve()
+            }else{
+                reject()
+            }
+        })
+    },
+    changeBookingStatus:(b_id)=>{
+        return new Promise((resolve, reject) => {
+            let sql = `update booking_table set b_status = 'success' where booking_id = '${b_id}'`;
+            database.query(sql,(err,result)=>{
+                if (err) {
+                    reject();
+                }else{
+                    resolve();
+                }
+            })
+        })
+    },
+    getBooking:(b_id)=>{
+        return new Promise((resolve, reject) => {
+            let sql = `select * from booking_table where booking_id = '${b_id}'`;
+            database.query(sql,(err,result)=>{
+                if(err) reject();
+                else resolve(result[0]);
+            })
+        })
+    },
+    removeBooking:(b_id)=>{
+        return new Promise((resolve, reject) => {
+            let sql = `delete from booking_table where booking_id = '${b_id}'`
+            database.query(sql,(err,result)=>{
+                if(err) reject()
+                else resolve()
+            })
+        })
+    },
+    changeCarStatus:(car_id)=>{
+        return new Promise((resolve, reject) => {
+            let sql = `update car_table set status = 'Not available' where car_id = '${car_id}'`
+            database.query(sql,(err,result)=>{
+                if (err) reject();
+                else resolve ();
+            })
+        })
+
+    },
+    getBookings:(user_id)=>{
+        return new Promise((resolve, reject) => {
+            let sql = `select * from booking_table inner join car_table on booking_table.c_id=car_table.car_id where u_id = '${user_id}'`;
+            database.query(sql,(err,result)=>{
+                if(err) throw err;
+                else resolve(result);
+            })
+        })
+
+    },
 
 }

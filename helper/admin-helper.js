@@ -199,4 +199,16 @@ module.exports = {
             })
         })
     },
+    getAllDrivers:()=>{
+        return new Promise((resolve, reject) => {
+            let sql = `select * from driver_table inner join login on driver_table.l_id=login.l_id`;
+            database.query(sql,(err,result)=>{
+                if(err) throw err;
+                else{
+                    //console.log(result);
+                    resolve(result)
+                }
+            })
+        })
+    },
 }
