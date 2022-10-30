@@ -98,9 +98,16 @@
                     method:'post',
                     data:$('#checkout-form').serialize(),
                     success:(response)=>{
+                        if(response.status){
+                            razorpayPayment(response)
+
+                        }else{
+                            alert("Please select another one");
+                            window.location="/user-home";
+                        }
                     
                         
-                        razorpayPayment(response)
+                        
                         
                         
                         

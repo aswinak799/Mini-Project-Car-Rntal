@@ -117,7 +117,35 @@ router.get('/change-status',verifyLogin,(req,res)=>{
 
 //Bookings
 router.get('/bookings',(req,res)=>{
-  res.send("<h1 align = 'center'>Bookings</h1>")
+  let driver_id = req.session.user.driver_id;
+  userHelper.getDriverBookings(driver_id).then(async(data)=>{
+    for (let i = 0; i < data.length; i++) {
+      data[i].picup =await data[i].picup.toString().split('00')[0];
+      data[i].dropoff =await data[i].dropoff.toString().split('00')[0];
+      data[i].time =await data[i].time.toString().split('GMT')[0];
+      
+      
+    }
+      res.render('driver/all-bookings',{driver:req.session.user,bookings:data})
+  })
+   
+})
+
+//view-booking
+router.get('/view-booking',async(req,res)=>{
+
+  let user = await adminHelper.getUser(req.query.user_id);
+  console.log(user);
+  let rent_details =await userHelper.getBooking(req.query.booking_id)
+  let pic=rent_details.picup;
+  let drop = rent_details.dropoff;
+  const[d_date,d_time] = drop.toString().split('00');
+  const[date,time] = pic.toString().split('00');
+  rent_details.picup = date;
+  rent_details.dropoff = d_date;
+  console.log(rent_details.picup);
+  let car =await userHelper.getCar(req.query.car_id)
+  res.render('driver/view-booking',{car:car,driver:req.session.user,customer:user[0],booking:rent_details})
 })
 
 router.get('/login',(req,res)=>{

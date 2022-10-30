@@ -192,9 +192,40 @@ router.get('/view-user/:id',verifyLogin,async(req,res)=>{
 
 
 router.get('/bookings',(req,res)=>{
-  res.send("<h1 align='center'>Bookings</h1>");
+  adminHelper.getAllBookings(req.session.user.user_id).then(async(bookings)=>{
+    for (let i = 0; i < bookings.length; i++) {
+      bookings[i].picup =await bookings[i].picup.toString().split('00')[0];
+      bookings[i].dropoff =await bookings[i].dropoff.toString().split('00')[0];
+      bookings[i].time =await bookings[i].time.toString().split('GMT')[0];
+      
+      
+    }
+    console.log(bookings);
+
+    res.render('admin/all-bookings',{booking:bookings,admin:true})
+  })
+
+  
 })
 
+
+//booking reject
+
+router.get('/booking-reject',(req,res)=>{
+  let booking_id = req.query.booking_id;
+  let car_id =  req.query.car_id;
+  let driver_id = req.query.driver_id;
+  adminHelper.rejectBooking(booking_id,car_id,driver_id).then(()=>{
+    res.redirect('/admin/bookings')
+  }).catch(()=>{
+    return res.status(500).send("<h1 align='center'>ERROR</h1>");
+  })
+})
+
+//view each booking
+router.get('/view-booking',(req,res)=>{
+  res.render('admin/view-booking');
+})
 //feedback
 router.get('/feedback',(req,res)=>{
   res.send("<h1 align='center'>Feedbacks</h1>");

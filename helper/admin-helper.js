@@ -211,4 +211,35 @@ module.exports = {
             })
         })
     },
+    getAllBookings:()=>{
+        return new Promise((resolve, reject) => {
+            let sql = `select * from registration inner join booking_table on registration.user_id = booking_table.u_id inner join car_table on booking_table.c_id=car_table.car_id`;
+            database.query(sql,(err,result)=>{
+                if(err) throw err;
+                else resolve(result);
+            })
+        })
+
+    },
+    rejectBooking:(booking_id,car_id,driver_id)=>{
+        let sql = `update booking_table set b_status = 'rejected' where booking_id = '${booking_id}'`
+        let sql1 = `update car_table set status = 'Available' where car_id = '${car_id}'`
+        let sql2 = `update driver_table set status = 'Available' where driver_id = '${driver_id}'`
+        return new Promise((resolve, reject) => {
+            database.query(sql,(err,result)=>{
+                if(err) reject();
+                else{
+                    database.query(sql1,(err,result)=>{
+                        if(err) reject();
+                        else{
+                            database.query(sql2,(err,result)=>{
+                                if(err) reject();
+                                else resolve();
+                            })
+                        }
+                    })
+                }
+            })
+        })
+    }
 }

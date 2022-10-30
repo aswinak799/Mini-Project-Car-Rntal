@@ -270,10 +270,12 @@ router.get('/checkout',async(req,res)=>{
   res.render('user/checkout',{'customer':req.session.user,'user':true,'car':car,'amount':totalAmt,'date':{'picup':req.session.picup,'drop':req.session.dropoff,'days':req.session.rent_days}})
 });
 
-router.post('/checkout',(req,res)=>{
+router.post('/checkout',async(req,res)=>{
+  let car = await userHelper.getCar(req.session.car_id)
 
   let bookingDetails;
  if(req.session.dr_id){
+
   bookingDetails = {
     car_id : req.session.car_id,
    user_id : req.session.user.user_id,
@@ -284,6 +286,13 @@ router.post('/checkout',(req,res)=>{
    driver : req.session.dr_id,
 
  };
+
+  userHelper.changeDriverStatus(req.session.dr_id).then(()=>{
+
+  }).catch(()=>{
+    return res.status(500).send('Booking Faild');
+  })
+ 
 
  }else{
   bookingDetails = {
@@ -302,11 +311,14 @@ router.post('/checkout',(req,res)=>{
 
 
 
-
+ if (car.status === 'Available') {
+  
+ 
   userHelper.placeOrder(bookingDetails).then((orderId)=>{
     req.session.b_id=orderId;
     userHelper.changeCarStatus(bookingDetails.car_id).then(()=>{
       userHelper.generateRazorpay(req.session.b_id,bookingDetails.amount).then((response)=>{
+        console.log(response);
         res.json(response)
       })
 
@@ -316,6 +328,9 @@ router.post('/checkout',(req,res)=>{
   }).catch(()=>{
     return res.status(500).send('<h1>Something Wrong</h1>');
   })
+}else{
+  res.json({status:false});
+}
 
 });
 
@@ -366,8 +381,15 @@ router.get('/select-driver',(req,res)=>{
 
 
 router.get('/bookings',(req,res)=>{
-  userHelper.getBookings(req.session.user.user_id).then((bookings)=>{
-    console.log(bookings);
+  userHelper.getBookings(req.session.user.user_id).then(async(bookings)=>{
+    for (let i = 0; i < bookings.length; i++) {
+      bookings[i].picup =await bookings[i].picup.toString().split('00')[0];
+      bookings[i].dropoff =await bookings[i].dropoff.toString().split('00')[0];
+      bookings[i].time =await bookings[i].time.toString().split('GMT')[0];
+      
+      
+    }
+
     res.render('user/bookings',{booking:bookings,user:true,customer:req.session.user})
   })
   
@@ -380,12 +402,32 @@ router.get('/view-booking',async(req,res)=>{
   if (req.query.driver_id) {
     
    driver =await adminHelper.getDriver(req.query.driver_id);
+   driver = driver[0]
    console.log(driver);
   }
   let rent_details =await userHelper.getBooking(req.query.booking_id)
+  let pic=rent_details.picup;
+  let drop = rent_details.dropoff;
+  const[d_date,d_time] = drop.toString().split('00');
+  const[date,time] = pic.toString().split('00');
+  rent_details.picup = date;
+  rent_details.dropoff = d_date;
+  console.log(rent_details.picup);
   let car =await userHelper.getCar(req.query.car_id)
-  res.render('user/view-booking',{car:car,emp:driver[0],user:true,customer:req.session.user,booking:rent_details})
+  res.render('user/view-booking',{car:car,emp:driver,user:true,customer:req.session.user,booking:rent_details})
  
+})
+
+//Booking cancel
+router.get('/booking-cancel',(req,res)=>{
+  let booking_id = req.query.booking_id;
+  let car_id =  req.query.car_id;
+  let driver_id = req.query.driver_id;
+  userHelper.cancelBooking(booking_id,car_id,driver_id).then(()=>{
+    res.redirect('/bookings')
+  }).catch(()=>{
+    return res.status(500).send("<h1 align='center'>ERROR</h1>");
+  })
 })
 
 //logout section

@@ -1,3 +1,5 @@
+
+
 <style type="text/css">
 		/*body
 		{
@@ -14,7 +16,7 @@
     }
     .card{
       padding: 20px;
-      background: rgb(238, 238, 238);
+      background: #fff
       border-radius: 30px;
       
     }
@@ -31,8 +33,8 @@
     
 	</style>
 <section>
-    <div class="container">
-        <h1 class="text-center">My Bookings</h1>
+    <div class="">
+        <h1 class="text-center">All Bookings</h1>
 
         <div class="row p-3">
             
@@ -66,11 +68,11 @@
       <th scope="col">Dropoff</th>
       <th scope="col">Time</th>
       <th>Car Details</th>
+     <th scope="col">Amount</th>
       <th scope="col">Status</th>
-      <th scope="col">Amount</th>
-      <th>Driver</th>
+      
       <th scope="col">Option</th>
-      <th>cancel</th>
+      <th>Reject</th>
     </tr>
   </thead>
   <tbody>
@@ -82,22 +84,37 @@
       <td>{{this.dropoff}}</td>
       <td>{{this.time}}</td>
       <td>{{this.brand}} {{this.model}}</td>
-      <td>{{this.b_status}}</td>
+      
       <td>{{this.b_amount}}</td>
       <td>
-        {{#if this.d_id}}
-        Yes
+        {{#if (eq this.b_status 'rejected')}}
+        <button class="btn btn-danger btn-sm">{{this.b_status}}</button>
+        {{else if (eq this.b_status 'cancelled')}}
+        <button class="btn btn-warning btn-sm">{{this.b_status}}</button>
         {{else}}
-           No
+           
+           
+        <button class="btn btn-success btn-sm">{{this.b_status}}</button>
         {{/if}}
-      </td>
+        </td>
+
       {{!-- <td><img src="/car-images/{{this.reg_no}}{{this.car_id}}.jpg" alt="" width="50px" height="50px"> </td> --}}
       <td>
-        <a href="/view-booking?car_id={{this.car_id}}&driver_id={{this.d_id}}&booking_id={{this.booking_id}}" class="btn btn-outline-info btn-sm" style="width: 100px; border-radius: 16px;">View</a>
+        <a href="/admin/view-booking?car_id={{this.car_id}}&driver_id={{this.d_id}}&booking_id={{this.booking_id}}" class="btn btn-outline-info btn-sm" style="width: 100px; border-radius: 16px;">View</a>
         
           
       </td>
-      <td><a href="/booking-cancel?car_id={{this.car_id}}&driver_id={{this.d_id}}&booking_id={{this.booking_id}}" class="btn btn-danger btn-sm" onclick="return confirm('Do you want to cancel Booking ?')">Cancel</a></td>
+
+      <td>
+        {{#if (eq this.b_status 'rejected')}}
+        <button class="btn btn-danger btn-sm">Rejected</button>
+        {{else if (eq this.b_status 'cancelled')}}
+           <button class="btn btn-danger btn-sm">Cancelled</button>
+         {{else}}
+      
+        <a href="/admin/booking-reject?car_id={{this.car_id}}&driver_id={{this.d_id}}&booking_id={{this.booking_id}}" class="btn btn-danger btn-sm" onclick="return confirm('Do you want to reject Booking ?')">Reject</a>
+        {{/if}}
+        </td>
     </tr>
    
     {{/each}}
@@ -117,18 +134,3 @@
     $('#productstable').DataTable();
 } );
 </script>
-
-{{!-- delimiter |
-
-CREATE EVENT Pending_event
-    ON SCHEDULE
-      EVERY 5 MINUTE 
-    
-    DO
-      BEGIN
-        DELETE FROM rental_system.booking_table WHERE b_status= "Pending" and time < DATE_SUB( CURRENT_TIME(), INTERVAL 10 MINUTE);
- 
-      END |
-
-delimiter ; --}}
-{{!-- DELETE FROM booking_table WHERE b_status= "Pending" and time < DATE_SUB( CURRENT_TIME(), INTERVAL 10 MINUTE) --}}

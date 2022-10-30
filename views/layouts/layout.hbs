@@ -64,6 +64,14 @@
         
     {{!-- </script> --}}
 <script src="/javascripts/js/bootstrap.min.js"> </script>
+
+<script>
+   $(window).bind("pageshow", function(event) {
+    if (event.originalEvent.persisted) {
+        window.location.reload(); 
+    }
+});
+</script>
         
 </body>
 

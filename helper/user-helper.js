@@ -217,9 +217,9 @@ module.exports = {
             // let values = [data.car_id,data.user_id,data.picup,data.dropoff,data.days,data.amount];
             let sql;
            if (data.driver) {
-            sql = `insert into booking_table(c_id,u_id,picup,dropoff,days,amount,d_id) values('${data.car_id}','${data.user_id}','${data.picup}','${data.dropoff}','${data.days}','${data.amount}','${data.driver}')`;
+            sql = `insert into booking_table(c_id,u_id,picup,dropoff,days,b_amount,d_id) values('${data.car_id}','${data.user_id}','${data.picup}','${data.dropoff}','${data.days}','${data.amount}','${data.driver}')`;
            }else{
-            sql = `insert into booking_table(c_id,u_id,picup,dropoff,days,amount) values('${data.car_id}','${data.user_id}','${data.picup}','${data.dropoff}','${data.days}','${data.amount}')`;
+            sql = `insert into booking_table(c_id,u_id,picup,dropoff,days,b_amount) values('${data.car_id}','${data.user_id}','${data.picup}','${data.dropoff}','${data.days}','${data.amount}')`;
 
            }
             // sql = `insert into booking_table(c_id,u_id,picup,dropoff,days,amount) values('${data.car_id}','${data.user_id}','${data.picup}','${data.dropoff}','${data.days}','${data.amount}')`;
@@ -321,5 +321,44 @@ module.exports = {
         })
 
     },
+    changeDriverStatus:(driver_id)=>{
+        return new Promise((resolve, reject) => {
+            let sql = `update driver_table set status = 'Not available' where driver_id = '${driver_id}'`;
+            database.query(sql,(err,result)=>{
+                if(err) reject();
+                else resolve();
+            })
+        })
+    },
+    getDriverBookings:(dr_id)=>{
+        return new Promise((resolve, reject) => {
+            let sql = `select * from booking_table inner join car_table on booking_table.c_id=car_table.car_id where d_id='${dr_id}'`;
+            database.query(sql,(err,result)=>{
+                if(err) reject();
+                else resolve(result);
+            })
+        })
+    },
+    cancelBooking:(booking_id,car_id,driver_id)=>{
+        let sql = `update booking_table set b_status = 'cancelled' where booking_id = '${booking_id}'`
+        let sql1 = `update car_table set status = 'Available' where car_id = '${car_id}'`
+        let sql2 = `update driver_table set status = 'Available' where driver_id = '${driver_id}'`
+        return new Promise((resolve, reject) => {
+            database.query(sql,(err,result)=>{
+                if(err) reject();
+                else{
+                    database.query(sql1,(err,result)=>{
+                        if(err) reject();
+                        else{
+                            database.query(sql2,(err,result)=>{
+                                if(err) reject();
+                                else resolve();
+                            })
+                        }
+                    })
+                }
+            })
+        })
+    }
 
 }
