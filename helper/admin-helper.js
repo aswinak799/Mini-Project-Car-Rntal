@@ -1,6 +1,7 @@
 const { Result } = require('express-validator');
 var database = require('../config/connection');
 var bcrypt = require('bcrypt');
+const mailer = require('../config/mail');
 
 
 module.exports = {
@@ -187,9 +188,10 @@ module.exports = {
             })
         })
     },
-    getCarsOrderby:()=>{
+    getCarsOrderby:(picup,dropoff)=>{
         return new Promise((resolve, reject) => {
-           var sql = `select * from car_table order by segment`;
+            //select * from car_table where car_id NOT IN (select c_id from booking_table where ('${picup}' BETWEEN picup AND dropoff) OR ('${dropoff}' BETWEEN picup AND dropoff)) order by segment;
+           var sql = `select * from car_table where car_id NOT IN (select c_id from booking_table where ((('${picup}' BETWEEN picup AND dropoff) OR ('${dropoff}' BETWEEN picup AND dropoff))  OR ('${picup}' < picup AND '${dropoff}' > dropoff)) AND (b_status='success' OR b_status='Processing')) `;
             database.query(sql,(err,result)=>{
                 if(err) throw err;
                 else{
@@ -199,9 +201,9 @@ module.exports = {
             })
         })
     },
-    getAllDrivers:()=>{
+    getAllDrivers:(picup,dropoff)=>{
         return new Promise((resolve, reject) => {
-            let sql = `select * from driver_table inner join login on driver_table.l_id=login.l_id`;
+            let sql = `select * from driver_table inner join login on driver_table.l_id=login.l_id where driver_id NOT IN (select d_id from booking_table where ((('${picup}' BETWEEN picup AND dropoff) OR ('${dropoff}' BETWEEN picup AND dropoff))  OR ('${picup}' < picup AND '${dropoff}' > dropoff)) AND (b_status='success' OR b_status='Processing'))`;
             database.query(sql,(err,result)=>{
                 if(err) throw err;
                 else{
@@ -213,7 +215,7 @@ module.exports = {
     },
     getAllBookings:()=>{
         return new Promise((resolve, reject) => {
-            let sql = `select * from registration inner join booking_table on registration.user_id = booking_table.u_id inner join car_table on booking_table.c_id=car_table.car_id`;
+            let sql = `select * from registration inner join booking_table on registration.user_id = booking_table.u_id inner join car_table on booking_table.c_id=car_table.car_id order by time DESC`;
             database.query(sql,(err,result)=>{
                 if(err) throw err;
                 else resolve(result);
@@ -241,5 +243,54 @@ module.exports = {
                 }
             })
         })
+    },
+    getAllFeedback:()=>{
+        return new Promise((resolve, reject) => {
+            let sql = `select * from feedback_table order by time desc`
+            database.query(sql,(err,result)=>{
+                if(err) reject();
+                else resolve(result);
+            })
+        })
+    },
+    responceInsert:(f_id,res)=>{
+        return new Promise((resolve, reject) => {
+            let sql = `update feedback_table set response = '${res}' where f_id = '${f_id}'`
+            database.query(sql,(err,result)=>{
+            if(err) throw(err);
+            else resolve();
+        })
+        })
+        
+    },
+    sendMail:(email,msg,sub)=>{
+        return new Promise((resolve, reject) => {
+        var mailOptions = {
+            from: 'aswinak799@gmail.com',
+            to: email,
+            subject: sub,
+            text: msg,
+            };
+
+            mailer.sendMail(mailOptions, function(error, info){
+            if (error) {
+                reject(error);
+            } else {
+                resolve(info.response)
+                console.log('Email sent: ' + info.response);
+            }
+            });
+            
+        })
+    },
+    BookingStatusChange:(booking_id,status)=>{
+        return new Promise((resolve, reject) => {
+            let sql = `update booking_table set b_status = '${status}' where booking_id = '${booking_id}'`;
+            database.query(sql,(err,result)=>{
+                if(err) reject();
+                else resolve();
+            })
+        })
     }
+
 }

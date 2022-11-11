@@ -79,8 +79,10 @@
   <div class="dropdown-menu">
     {{#if (eq this.status "Available") }}
     <a class="dropdown-item" href="/admin/driver-status/?status=Not available&Id={{this.driver_id}}">Not available</a>
+    <a class="dropdown-item" href="/admin/driver-status/?status=Disabled&Id={{this.driver_id}}">Disable</a>
     {{else}}
     <a class="dropdown-item" href="/admin/driver-status/?status=Available&Id={{this.driver_id}}">Available</a>
+    <a class="dropdown-item" href="/admin/driver-status/?status=Disabled&Id={{this.driver_id}}">Disable</a>
     {{/if}}
 
   </div>

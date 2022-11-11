@@ -1,0 +1,160 @@
+<section class="vh-100 gradient-custom p-5">
+  <div class="row p-5">
+    
+        <div class="card1 container p-5 bg-light" style="border-radius: 15px; opacity:0.89;">
+          <div class="card-body p-4 p-md-5">
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Send Feedback And Quieries</h3>
+            <form action="/contact" method="post" name="myform" id="register-form"  enctype="multipart/form-data">
+              
+              <div class="row">
+                <div class="col-xl-6 mb-4">
+
+                  <div class="form-outline">
+                    <label class="form-label" for="fullName">Full Name</label>
+                    <input type="text" id="fullName" class="form-control form-control-lg is-valid" name="name" required pattern="[A-Za-z\s]{3,}" placeholder="Name">
+                    
+                  </div>
+
+                </div>
+                <div class="col-xl-6 mb-4">
+
+                  <div class="form-outline">
+                    <label class="form-label" for="email">Email</label>
+                    <input type="email" id="email" class="form-control form-control-lg is-valid"  name="email_id" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="Email">
+                    
+                  </div>
+
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-xl-6 mb-4">
+
+                  <div class="form-outline">
+                    <label class="form-label" for="fullName">Mobile Number</label>
+                    <input type="tel" id="input-subject" class="form-control form-control-lg is-valid" name="phone" placeholder="Mobile Number" required>
+                    
+                  </div>
+
+                </div>
+                <div class="col-xl-6 mb-4">
+
+                  <div class="form-outline">
+                    <label class="form-label" for="subject">Subject</label>
+                    {{!-- <input type="select" id="subject" class="form-control form-control-lg is-valid" name="subject" placeholder="Subject" required> --}}
+                    <select class="form-control form-control-lg" name="subject" required>
+                        <option value="">Subject</option>
+                        <option value="Feedback">Feedback</option>
+                        <option value="Queries">Queries</option>
+                    </select>
+                  </div>
+
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl mb-4">
+
+                  <div class="form-outline">
+                    <label class="form-label" for="subject">Message</label>
+                    <textarea name="message" class="form-control form-control-lg is-valid" type="text" id="input-message" placeholder="Message" required></textarea>
+                    
+                  </div>
+
+                </div>
+              </div>
+
+              
+
+
+              <div class="mt-4 pt-2">
+                <input class="btn btn-primary btn-lg" type="submit" value="Submit" style="width: 100%;">
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+</section>
+
+{{!-- <script>
+  $("#birthdayDate").datepicker({
+    maxDate: "-20y"
+    });
+</script> --}}
+<style>
+    .gradient-custom {
+/* fallback for old browsers */
+
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background-image:url("/images/bg (5).jpg");
+}
+
+label{
+  font-weight: bold;
+  font-style: unset;
+}
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+font-size: 1rem;
+line-height: 2.15;
+padding-left: .75em;
+padding-right: .75em;
+}
+.card-registration .select-arrow {
+top: 13px;
+}
+
+.btn-primary{
+  transition: .5s all ease;
+}
+.btn-primary:hover{
+  border-radius: 15px;
+  transform: scale(.9);
+}
+.card-body:hover{
+  transform: scale(1.09);
+}
+.form-control{
+  border-top-left-radius:18px ;
+  border-bottom-right-radius: 18px;
+  border-color: blue;
+}
+
+
+.card-body{
+        background: #d4ebff;
+        border-radius: 20px;
+        transition: .9s all ease;
+  }
+  .bg-light {
+    background-color: #9dccff!important;
+}
+
+</style>
+
+{{!-- <script>
+    $("#register-form").submit((e)=>{
+    e.preventDefault()
+    var email=document.myform.email.value;
+    var password=document.myform.password.value;
+    var phone =  document.myform.phone.value;
+    var atposition=email.indexOf("@");  
+    var dotposition=email.lastIndexOf(".");     
+    var phone_no = /^\d{10}$/;
+  console.log(phone)
+    
+  if(atposition<1 || dotposition<atposition+2 || dotposition+2>=x.length){  
+  alert("Please enter a valid e-mail address \n atpostion:"+atposition+"\n dotposition:"+dotposition);  
+  return false;  
+  }  
+  else if(password.length<6){
+     alert("Please enter a valid password \n password must have length 6"); 
+     return false;
+  }else{
+    return true;
+  }
+
+
+  })
+    
+</script> --}}

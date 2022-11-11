@@ -10,7 +10,7 @@
 
                       <div class="form-outline datepicker w-100">
                         <label for="Picup" class="form-label">Picup Date</label>
-                        <input type="date" class="form-control form-control-lg is-valid" onchange="enebleDate()" id="picup"  name="picup" required>
+                        <input type="date" class="form-control form-control-lg" onchange="enebleDate()" id="picup"  name="picup" required>
                         
                       </div>
     
@@ -19,7 +19,7 @@
 
                       <div class="form-outline datepicker w-100">
                         <label for="Dropoff" class="form-label">Dropoff Date</label>
-                        <input type="date" class="form-control form-control-lg is-valid"  id="dropoff" name="dropoff" required>
+                        <input type="date" class="form-control form-control-lg"  id="dropoff" name="dropoff" required>
                         
                       </div>
     
@@ -56,6 +56,7 @@
       <script>
         
         $(function(){
+          //tomorrow.setDate(today.getDate() + 1)
           var dtToday = new Date();
     var month = dtToday.getMonth() + 1;
     var day = dtToday.getDate();
@@ -83,9 +84,11 @@ function enebleDate(){
   const x = document.getElementById("picup").value;
   document.getElementById("dropoff").disabled = false;
   var dt = new Date(x);
+  dt.setDate(dt.getDate() + 1)
+
   var month = dt.getMonth() + 1;
     var day = dt.getDate();
-    day = day+1;
+    day = day;
     var year = dt.getFullYear();
 
 

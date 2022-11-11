@@ -230,14 +230,14 @@ router.get('/cars',async(req,res)=>{
   // ]
   let cate = await userHelper.getCategories()
   console.log(cate);
-  let cars =await adminHelper.getCarsOrderby()
+  let cars =await adminHelper.getCarsOrderby(req.session.picup,req.session.dropoff)
   let l = cars.length;
   for (let i = 0; i < l; i++) {
     cars[i].amount = cars[i].amount * req.session.rent_days;
     
     
   }
-  console.log(cars);
+  // console.log(cars);
   res.render('user/car-lists',{'user':true,'customer':req.session.user,'days':req.session.rent_days,'cars':cars,'category':cate})
   // req.session.rent_days = null;
 })
@@ -287,11 +287,11 @@ router.post('/checkout',async(req,res)=>{
 
  };
 
-  userHelper.changeDriverStatus(req.session.dr_id).then(()=>{
+  // userHelper.changeDriverStatus(req.session.dr_id).then(()=>{
 
-  }).catch(()=>{
-    return res.status(500).send('Booking Faild');
-  })
+  // }).catch(()=>{
+  //   return res.status(500).send('Booking Faild');
+  // })
  
 
  }else{
@@ -316,14 +316,13 @@ router.post('/checkout',async(req,res)=>{
  
   userHelper.placeOrder(bookingDetails).then((orderId)=>{
     req.session.b_id=orderId;
-    userHelper.changeCarStatus(bookingDetails.car_id).then(()=>{
-      userHelper.generateRazorpay(req.session.b_id,bookingDetails.amount).then((response)=>{
-        console.log(response);
-        res.json(response)
-      })
-
-
+    userHelper.generateRazorpay(req.session.b_id,bookingDetails.amount).then((response)=>{
+      console.log(response);
+      res.json(response)
     })
+    // userHelper.changeCarStatus(bookingDetails.car_id).then(()=>{
+  
+    // })
 
   }).catch(()=>{
     return res.status(500).send('<h1>Something Wrong</h1>');
@@ -374,7 +373,7 @@ router.get('/payment-success',(req,res)=>{
 
 //select select-driver
 router.get('/select-driver',(req,res)=>{
-  adminHelper.getAllDrivers().then((response)=>{
+  adminHelper.getAllDrivers(req.session.picup,req.session.dropoff).then((response)=>{
     res.render('user/driver-list',{drivers:response,user:true,customer:req.session.user})
   })
 })
@@ -389,7 +388,7 @@ router.get('/bookings',(req,res)=>{
       
       
     }
-
+    console.log(bookings)
     res.render('user/bookings',{booking:bookings,user:true,customer:req.session.user})
   })
   
@@ -429,6 +428,21 @@ router.get('/booking-cancel',(req,res)=>{
     return res.status(500).send("<h1 align='center'>ERROR</h1>");
   })
 })
+
+
+//contact section
+
+router.get('/contact',(req,res)=>{
+  res.render('user/feedback')
+})
+router.post('/contact',(req,res)=>{
+  userHelper.feedback(req.body).then(()=>{
+    return res.send('<script>alert("Message sending");window.location="/"</script>');
+  }).catch(()=>{
+    return res.send('<script>alert("Message sending faild");window.location="/contact"</script>');
+  })
+});
+
 
 //logout section
 router.get('/logout',(req,res)=>{

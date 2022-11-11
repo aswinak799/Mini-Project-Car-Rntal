@@ -1,0 +1,101 @@
+
+
+<style type="text/css">
+		body
+		{
+		    counter-reset: Serial;          
+		}
+
+		tr td:first-child:before
+		{
+		  counter-increment: Serial;      
+		  content: counter(Serial); 
+		}
+    .btn{
+      border-radius: 15px;
+    }
+	</style>
+<section>
+    <div class="">
+        <h1 class="text-center">feedback</h1>
+
+        <div class="row p-3">
+            
+        </div>
+<div class="mt-3 col-md-12">
+        <div class="col-12">
+        <div class="card recent-sales overflow-auto">
+
+          {{! <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                  </ul>
+                </div> }}
+
+          <div class="card-body">
+            
+            <h5 class="card-title">Feedback details <span>| All</span></h5>
+            <table class="table table-bordered table-responsive-md mt-5" id="productstable">
+  <thead>
+    <tr>
+      
+      <th scope="col">Slno</th>
+      <th scope="col">name</th>
+      
+      <th scope="col">Email</th>
+      <th>Phone</th>
+      <th scope="col">Time</th>
+      <th scope="col">Subject</th>
+      <th>Message</th>
+      <th>Responce</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each fed}}
+    <tr>
+      <td></td>
+      <td>{{this.name}}</td>
+      <td>{{this.email_id}}</td>
+      
+      <td>{{this.phone}}</td>
+      <td>{{this.time}}</td>
+      <td>{{this.subject}}</td>
+      <td>{{this.message}}</td>
+      
+      
+   
+      
+      {{!-- <td><img src="/car-images/{{this.reg_no}}{{this.car_id}}.jpg" alt="" width="50px" height="50px"> </td> --}}
+      <td>
+        {{#if this.response}}
+           {{this.response}}
+        {{else}}
+            <a href="/admin/send-responce/?f_id={{this.f_id}}&email={{this.email_id}}&name={{this.name}}&sub={{this.subject}}" class="btn btn-info btn-sm">Send Responce</a> 
+        {{/if}}
+        </td>
+    </tr>
+   
+    {{/each}}
+    
+  </tbody>
+</table>
+          </div>
+
+        </div>
+      </div>
+</div>
+    </div>
+     
+</section>
+<script>
+  $(document).ready( function () {
+    $('#productstable').DataTable();
+} );
+</script>

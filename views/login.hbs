@@ -1,15 +1,20 @@
 <style>
     .register-photo {
-        background: #f1f7fc;
+        background: #246295;
         padding: 80px 0;
         height: 1000px;
+       
+        
+        
     }
 
     .register-photo .image-holder {
         display: table-cell;
         width: auto;
-        background: url(https://img.freepik.com/premium-vector/renting-new-used-car-car-rental-booking-reservation-banner-vector-illustration-background_589019-1903.jpg?w=2000);
+        background-image:url("/images/login.jpg");
         background-size: cover;
+        border-radius: 50px;
+        z-index: 1;
     }
 
     .register-photo .form-container {
@@ -29,6 +34,8 @@
         background-color: #ffffff;
         padding: 40px 60px;
         color: #505e6c;
+        border-radius: 50px;
+        z-index: 1;
     }
 
     @media (max-width:991px) {
@@ -85,6 +92,20 @@
         opacity: 0.9;
         text-decoration: none;
     }
+    .form-container{
+        border-radius: 50px;
+        background: #ffffff;
+        transition: 2s;
+    }
+    .form-container:hover{
+        transform:scale(1.099) ;
+        background: #eae08f;
+
+    }
+    #passwd,#email{
+        border-top-left-radius:20px ;
+        border-bottom-right-radius: 20px;
+    }
 </style>
 <div class="register-photo pt-5">
     <div class="form-container">
@@ -96,8 +117,8 @@
         </div>
         {{/if}}
             <h2 class="text-center"><strong>Login</strong></h2>
-            <div class="form-group mt-5"><input class="form-control is-valid" type="email" name="email" placeholder="Email" required></div>
-            <div class="form-group mt-3"><input class="form-control is-valid" type="password" name="password" placeholder="Password" required>
+            <div class="form-group mt-5"><input class="form-control form-control-lg is-valid" id="email" type="email" name="email" placeholder="Email" required></div>
+            <div class="form-group mt-3"><input class="form-control form-control-lg is-valid" id="passwd" type="password" name="password" placeholder="Password" required>
             </div>
             <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Login</button></div>
             <a href="/register" class="already">Create new account? Sign Up here.</a>

@@ -1,7 +1,7 @@
 
 
 <style type="text/css">
-		/*body
+		body
 		{
 		    counter-reset: Serial;          
 		}
@@ -10,9 +10,10 @@
 		{
 		  counter-increment: Serial;      
 		  content: counter(Serial); 
-		}*/
+		}
     .btn{
       border-radius: 15px;
+      width: 100%;
     }
     .card{
       padding: 20px;
@@ -63,27 +64,29 @@
     <tr>
       
       {{!-- <th scope="col">Slno</th> --}}
-      <th>Booking_Id</th>
+      <th>Sl_no</th>
       <th scope="col">pickup</th>
       <th scope="col">Dropoff</th>
       <th scope="col">Time</th>
       <th>Car Details</th>
-     <th scope="col">Amount</th>
+      <th>Reg_no</th>
+      <th scope="col">Amount</th>
       <th scope="col">Status</th>
       
       <th scope="col">Option</th>
-      <th>Reject</th>
+      <th>Change_status</th>
     </tr>
   </thead>
   <tbody>
     {{#each booking}}
     <tr>
       {{!-- <td></td> --}}
-      <td>{{this.booking_id}}</td>
+      <td></td>
       <td>{{this.picup}}</td>
       <td>{{this.dropoff}}</td>
       <td>{{this.time}}</td>
       <td>{{this.brand}} {{this.model}}</td>
+      <td>{{this.reg_no}}</td>
       
       <td>{{this.b_amount}}</td>
       <td>
@@ -91,6 +94,11 @@
         <button class="btn btn-danger btn-sm">{{this.b_status}}</button>
         {{else if (eq this.b_status 'cancelled')}}
         <button class="btn btn-warning btn-sm">{{this.b_status}}</button>
+        {{else if (eq this.b_status 'Processing')}}
+           <button class="btn  btn-sm" style="background: rgb(110, 246, 185);">{{this.b_status}}</button>
+
+        {{else if (eq this.b_status 'Completed')}}
+           <button class="btn  btn-sm" style="background: rgb(186, 240, 69);">{{this.b_status}}</button>
         {{else}}
            
            
@@ -100,7 +108,7 @@
 
       {{!-- <td><img src="/car-images/{{this.reg_no}}{{this.car_id}}.jpg" alt="" width="50px" height="50px"> </td> --}}
       <td>
-        <a href="/admin/view-booking?car_id={{this.car_id}}&driver_id={{this.d_id}}&booking_id={{this.booking_id}}" class="btn btn-outline-info btn-sm" style="width: 100px; border-radius: 16px;">View</a>
+        <a href="/admin/view-booking?car_id={{this.car_id}}&driver_id={{this.d_id}}&booking_id={{this.booking_id}}&user_id={{this.user_id}}" class="btn btn-outline-info btn-sm" style="width: 100px; border-radius: 16px;">View</a>
         
           
       </td>
@@ -110,9 +118,24 @@
         <button class="btn btn-danger btn-sm">Rejected</button>
         {{else if (eq this.b_status 'cancelled')}}
            <button class="btn btn-danger btn-sm">Cancelled</button>
-         {{else}}
+        {{else if (eq this.b_status 'Completed')}}
+           <button class="btn btn-sm" style="background: rgb(186, 240, 69);">Completed</button>
+        {{else}}
       
-        <a href="/admin/booking-reject?car_id={{this.car_id}}&driver_id={{this.d_id}}&booking_id={{this.booking_id}}" class="btn btn-danger btn-sm" onclick="return confirm('Do you want to reject Booking ?')">Reject</a>
+        {{!-- <a href="/admin/booking-reject?car_id={{this.car_id}}&driver_id={{this.d_id}}&booking_id={{this.booking_id}}" class="btn btn-danger btn-sm" onclick="return confirm('Do you want to reject Booking ?')">Reject</a> --}}
+        <div class="dropdown">
+  <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{this.b_status}}
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    {{#if (eq this.b_status 'Processing')}}
+    {{else}}
+       <a class="dropdown-item btn btn-danger" href="/admin/booking-reject?car_id={{this.car_id}}&driver_id={{this.d_id}}&booking_id={{this.booking_id}}" onclick="return confirm('Do you want to reject Booking ?')">Reject</a>
+       {{/if}}
+    {{!-- <a class="dropdown-item btn btn-warning" href="/admin/booking-processing-completed?car_id={{this.car_id}}&driver_id={{this.d_id}}&booking_id={{this.booking_id}}&status=Processing">Processing</a> --}}
+    <a class="dropdown-item btn btn-success" href="/admin/booking-processing-completed?car_id={{this.car_id}}&driver_id={{this.d_id}}&booking_id={{this.booking_id}}&status=Completed">Completed</a>
+  </div>
+</div>
         {{/if}}
         </td>
     </tr>

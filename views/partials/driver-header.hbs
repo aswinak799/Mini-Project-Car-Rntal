@@ -82,6 +82,10 @@ h1 {
   <button type="button" class="btn btn-success dropdown-toggle" style="border-radius: 15px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     {{driver.status}}
   </button>
+  {{else if (eq driver.status "Disabled")}}
+     <button type="button" class="btn btn-danger" style="border-radius: 15px;" >
+    {{driver.status}}
+  </button>
   {{else}}
   <button type="button" class="btn btn-danger dropdown-toggle" style="border-radius: 15px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     {{driver.status}}

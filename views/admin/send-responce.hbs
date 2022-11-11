@@ -1,0 +1,42 @@
+<style>
+    h1{
+        font-weight: 700;
+        font-size: 40px;
+        text-align: center;
+        transition: 1.3s;
+
+    }
+    h1:hover{
+        transform: scale(1.09);
+        color: rgb(70, 237, 237);
+    }
+    #btn{
+        font-weight: 700;
+        font-size: xx-large;
+    }
+    label{
+        font-weight: 800;
+        font-size: xx-large;
+    }
+</style>
+<h1 >Send Responce</h1>
+<div class="container p-5">
+    <form action="/admin/send-responce" method="post">
+            <div class="row">
+                <div class="col-xl mb-4">
+
+                  <div class="form-outline">
+                    <label class="form-label" for="subject">Message</label>
+                    <textarea name="message" class="form-control form-control-lg is-valid" type="text" id="input-message" placeholder="Message" required>Dear {{name}}</textarea>
+                    
+                  </div>
+
+                </div>
+            </div>
+            <div class="container">
+                <input type="submit" class="btn btn-info btn-lg" id="btn" value="Send" style="margin-left: 25%; width: 50%;">
+            </div>
+    </form>
+
+</div>
+

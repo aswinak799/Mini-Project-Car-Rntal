@@ -1,5 +1,5 @@
 <style type="text/css">
-		/*body
+		body
 		{
 		    counter-reset: Serial;          
 		}
@@ -8,9 +8,11 @@
 		{
 		  counter-increment: Serial;      
 		  content: counter(Serial); 
-		}*/
-    .btn{
+		}
+    .btn-sm{
       border-radius: 15px;
+      width: 100%;
+      
     }
     .card{
       padding: 20px;
@@ -31,7 +33,7 @@
     
 	</style>
 <section>
-    <div class="container">
+    <div class="">
         <h1 class="text-center">My Bookings</h1>
 
         <div class="row p-3">
@@ -60,8 +62,8 @@
   <thead>
     <tr>
       
-      {{!-- <th scope="col">Slno</th> --}}
-      <th>Booking_Id</th>
+      <th scope="col">Slno</th>
+      {{!-- <th>Booking_Id</th> --}}
       <th scope="col">pickup</th>
       <th scope="col">Dropoff</th>
       <th scope="col">Time</th>
@@ -76,8 +78,8 @@
   <tbody>
     {{#each booking}}
     <tr>
-      {{!-- <td></td> --}}
-      <td>{{this.booking_id}}</td>
+      <td></td>
+      
       <td>{{this.picup}}</td>
       <td>{{this.dropoff}}</td>
       <td>{{this.time}}</td>
@@ -97,7 +99,18 @@
         
           
       </td>
-      <td><a href="/booking-cancel?car_id={{this.car_id}}&driver_id={{this.d_id}}&booking_id={{this.booking_id}}" class="btn btn-danger btn-sm" onclick="return confirm('Do you want to cancel Booking ?')">Cancel</a></td>
+      <td>
+        {{#if (eq this.b_status 'rejected')}}
+        <button class="btn btn-danger btn-sm">{{this.b_status}}</button>
+        {{else if (eq this.b_status 'Completed')}}
+           <button class="btn btn-sm" style="background: rgb(89, 238, 91);">{{this.b_status}}</button>
+        {{else if (eq this.b_status 'Processing')}}
+        <button class="btn btn-sm" style="background: rgb(239, 188, 80);">{{this.b_status}}</button>
+        {{else if (eq this.b_status 'cancelled')}}
+        <button class="btn btn-sm" style="background: rgb(244, 107, 57);">{{this.b_status}}</button>
+        {{else}}
+        <a href="/booking-cancel?car_id={{this.car_id}}&driver_id={{this.d_id}}&booking_id={{this.booking_id}}" class="btn btn-danger btn-sm" onclick="return confirm('Do you want to cancel Booking ?')">Cancel</a></td>
+        {{/if}}
     </tr>
    
     {{/each}}

@@ -3,6 +3,7 @@ var express = require('express');
 const session = require('express-session');
 var router = express.Router();
 var adminHelper = require('../helper/admin-helper');
+const { feedback } = require('../helper/user-helper');
 var userHelper = require('../helper/user-helper');
 let errMessage = false;
 let Message =false;
@@ -223,13 +224,84 @@ router.get('/booking-reject',(req,res)=>{
 })
 
 //view each booking
-router.get('/view-booking',(req,res)=>{
-  res.render('admin/view-booking');
+router.get('/view-booking',async(req,res)=>{
+  let driver;
+  if (req.query.driver_id) {
+    
+   driver =await adminHelper.getDriver(req.query.driver_id);
+   driver = driver[0]
+   
+  }
+  let user = await adminHelper.getUser(req.query.user_id);
+
+  let rent_details =await userHelper.getBooking(req.query.booking_id)
+  let pic=rent_details.picup;
+  let drop = rent_details.dropoff;
+  const[d_date,d_time] = drop.toString().split('00');
+  const[date,time] = pic.toString().split('00');
+  rent_details.picup = date;
+  rent_details.dropoff = d_date;
+  
+  let car =await userHelper.getCar(req.query.car_id)
+  res.render('admin/view-booking',{car:car,emp:driver,customer:user[0],admin:true,booking:rent_details})
+ 
+  
+
 })
 //feedback
 router.get('/feedback',(req,res)=>{
-  res.send("<h1 align='center'>Feedbacks</h1>");
+  adminHelper.getAllFeedback().then(async(feedback)=>{
+    
+
+    for (let i = 0; i < feedback.length; i++) {
+      // bookings[i].picup =await bookings[i].picup.toString().split('00')[0];
+      // bookings[i].dropoff =await bookings[i].dropoff.toString().split('00')[0];
+      feedback[i].time =await feedback[i].time.toString().split('GMT')[0];
+      
+      
+    }
+    res.render('admin/feedback',{fed:feedback,admin:true});
+    
+  })
+  
 })
+
+//send-responce
+router.get('/send-responce',(req,res)=>{
+ 
+  req.session.feedbackUser = req.query;
+  res.render('admin/send-responce',{admin:true,name:req.query.name})
+})
+
+router.post('/send-responce',(req,res)=>{
+  let f_id = req.session.feedbackUser.f_id;
+  let email = req.session.feedbackUser.email;
+  let sub = req.session.feedbackUser.sub;
+  let msg = req.body.message;
+  req.session.feedbackUser = null;
+adminHelper.responceInsert(f_id,msg).then(()=>{
+  res.redirect('/admin/feedback');
+  adminHelper.sendMail(email,msg,sub)
+
+}).catch(()=>{
+  return res.send('<script>alert("sending faild");window.location="/admin/feedback"</script>')
+})
+
+})
+
+
+// booking-processing
+router.get('/booking-processing-completed',(req,res)=>{
+  let booking_id = req.query.booking_id;
+  let status = req.query.status;
+  console.log(req.query);
+  adminHelper.BookingStatusChange(booking_id,status).then(()=>{
+    res.redirect('/admin/bookings')
+  }).catch(()=>{
+    return res.status(500).send("Something WRONG")
+  })
+})
+
 router.get('/logout',(req,res)=>{
   req.session.user=null
   req.session.userloggedIn=false

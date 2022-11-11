@@ -313,7 +313,7 @@ module.exports = {
     },
     getBookings:(user_id)=>{
         return new Promise((resolve, reject) => {
-            let sql = `select * from booking_table inner join car_table on booking_table.c_id=car_table.car_id where u_id = '${user_id}'`;
+            let sql = `select * from booking_table inner join car_table on booking_table.c_id=car_table.car_id where u_id = '${user_id}' order by time desc`;
             database.query(sql,(err,result)=>{
                 if(err) throw err;
                 else resolve(result);
@@ -356,6 +356,19 @@ module.exports = {
                             })
                         }
                     })
+                }
+            })
+        })
+    },
+    feedback:(data)=>{
+        return new Promise((resolve, reject) => {
+            // let sql = `insert into feedback_table(name,email_id,phone,subject,message) values('${data.name}','${data.email_id}','${data.phone}','${data.subject}','${data.message}')`;
+            let sql = `insert into feedback_table SET ?`
+            database.query(sql,data,(err,result)=>{
+                if (err) {
+                    reject();
+                }else{
+                    resolve();
                 }
             })
         })
