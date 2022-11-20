@@ -17,7 +17,7 @@
 	</style>
 <section>
     <div class="">
-        <h1 class="text-center">Queries</h1>
+        <h1 class="text-center">feedbacks</h1>
 
         <div class="row p-3">
             
@@ -41,45 +41,33 @@
 
           <div class="card-body">
             
-            <h5 class="card-title">Queries details <span>| All</span></h5>
-            <table class="table table-bordered table-responsive-md mt-5" id="productstable">
-  <thead>
+            <h5 class="card-title">Feedback details <span>| All</span></h5>
+            <table class="table table-bordered table-hover table-responsive-md mt-5" id="productstable">
+  <thead class="thead-light">
     <tr>
       
-      <th scope="col">Slno</th>
+      <th scope="col" width="1">Slno</th>
       <th scope="col">name</th>
-      
       <th scope="col">Email</th>
       <th>Phone</th>
-      <th scope="col">Time</th>
-      <th scope="col">Subject</th>
-      <th>Message</th>
-      <th>Responce</th>
+      <th>Feedback</th>
+      
     </tr>
   </thead>
   <tbody>
-    {{#each fed}}
+    {{#each feed}}
     <tr>
       <td></td>
-      <td>{{this.name}}</td>
-      <td>{{this.email_id}}</td>
-      
+      <td>{{this.full_name}}</td>
+      <td>{{this.email}}</td>
       <td>{{this.phone}}</td>
-      <td>{{this.time}}</td>
-      <td>{{this.subject}}</td>
-      <td>{{this.message}}</td>
+      <td>{{this.feedback}}</td>
       
       
    
       
       {{!-- <td><img src="/car-images/{{this.reg_no}}{{this.car_id}}.jpg" alt="" width="50px" height="50px"> </td> --}}
-      <td>
-        {{#if this.response}}
-           {{this.response}}
-        {{else}}
-            <a href="/admin/send-responce/?f_id={{this.f_id}}&email={{this.email_id}}&name={{this.name}}&sub={{this.subject}}" class="btn btn-info btn-sm">Send Responce</a> 
-        {{/if}}
-        </td>
+      
     </tr>
    
     {{/each}}

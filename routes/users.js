@@ -130,9 +130,10 @@ router.get('/user-home',verifyLogin,(req,res)=>{
   console.log(req.session.user);
   let user = req.session.user;
  
-  // let dob = user.dob;
-  // console.log("************************",dob.toDateString())
-  // user.dob = dob.toDateString()
+  let dob = user.dob;
+  const date = dob.split('T')[0];
+  // console.log("************************",date)
+  user.dob = date;
   res.render('user/user-home',{'user':true,'customer':user})
 })
 //update profile
@@ -144,6 +145,12 @@ router.get('/update-profile',verifyLogin,(req,res)=>{
   res.render('user/update-profile',{'user':true,'customer':req.session.user,'date':date})
 })
 router.post('/update-profile',async(req,res)=>{
+  let user_ph = await userHelper.existPhoneWhenUpdate(req.body.phone,req.session.user.user_id);
+  // console.log(user_ph,"**********************************");
+  if(user_ph.length >0){
+    
+    return res.status(500).send('<script>alert("Phone number already exists");window.location="/update-profile"</script>')
+  }else{
   let name = await req.session.user.full_name;
   let id = await req.session.user.user_id;
   // console.log(name+id,'***************************');
@@ -180,6 +187,7 @@ router.post('/update-profile',async(req,res)=>{
   }).catch((status)=>{
     return res.status(500).send("<h1>Somthing wrong</h1>");
   })
+}
 })
 //view documents
 router.get('/my-documents',verifyLogin,(req,res)=>{
@@ -220,7 +228,7 @@ router.get('/booking-form',verifyLogin,(req,res)=>{
   res.render('user/booking-form',{'customer':req.session.user,"user":true})
 })
 
-router.get('/cars',async(req,res)=>{
+router.get('/cars',verifyLogin,async(req,res)=>{
 
   // let cate =[{cname:'Hatchback'},
   //   {cname:'Sedan'},
@@ -261,7 +269,7 @@ router.get('/take-driver/:id',(req,res)=>{
 
 });
 //without driver
-router.get('/checkout',async(req,res)=>{
+router.get('/checkout',verifyLogin,async(req,res)=>{
   // console.log(req.session.car_id);
   let car = await userHelper.getCar(req.session.car_id).catch(()=>{
     return res.status(500).send('Something wrong')
@@ -335,7 +343,7 @@ router.post('/checkout',async(req,res)=>{
 
 //with driver
 
-router.get('/checkout-with-driver/:d_id',async(req,res)=>{
+router.get('/checkout-with-driver/:d_id',verifyLogin,async(req,res)=>{
   req.session.dr_id = req.params.d_id;
   // console.log(req.session.car_id);
   let car = await userHelper.getCar(req.session.car_id).catch(()=>{
@@ -351,8 +359,8 @@ router.get('/checkout-with-driver/:d_id',async(req,res)=>{
 
 router.post('/verify-payment',async(req,res)=>{
   // console.log(req.body);
-  console.log("****************************");
-  console.log(req.body)
+  // console.log("****************************");
+  // console.log(req.body)
   userHelper.verifyPayment(req.body).then(()=>{
     
     console.log(req.body);
@@ -372,14 +380,14 @@ router.get('/payment-success',(req,res)=>{
 })
 
 //select select-driver
-router.get('/select-driver',(req,res)=>{
+router.get('/select-driver',verifyLogin,(req,res)=>{
   adminHelper.getAllDrivers(req.session.picup,req.session.dropoff).then((response)=>{
     res.render('user/driver-list',{drivers:response,user:true,customer:req.session.user})
   })
 })
 
 
-router.get('/bookings',(req,res)=>{
+router.get('/bookings',verifyLogin,(req,res)=>{
   userHelper.getBookings(req.session.user.user_id).then(async(bookings)=>{
     for (let i = 0; i < bookings.length; i++) {
       bookings[i].picup =await bookings[i].picup.toString().split('00')[0];
@@ -396,7 +404,7 @@ router.get('/bookings',(req,res)=>{
 
 
 //view bookings
-router.get('/view-booking',async(req,res)=>{
+router.get('/view-booking',verifyLogin,async(req,res)=>{
   let driver;
   if (req.query.driver_id) {
     
@@ -442,6 +450,19 @@ router.post('/contact',(req,res)=>{
     return res.send('<script>alert("Message sending faild");window.location="/contact"</script>');
   })
 });
+
+
+//feedback section
+
+router.get('/booking-feedback',(req,res)=>{
+  console.log(req.query);
+  userHelper.leaveFeedback(req.query).then(()=>{
+    res.redirect('/bookings')
+  }).catch(()=>{
+    res.send('<script>alert(" You already sumitted ");window.location="/bookings"</script>')
+  })
+
+})
 
 
 //logout section

@@ -11,7 +11,7 @@
 
                   <div class="form-outline">
                     <label class="form-label" for="fullName">Name</label>
-                    <input type="text" id="fullName" class="form-control form-control-lg" name="fname" value="{{driver.name}}" required>
+                    <input type="text" id="fullName" class="form-control form-control-lg" name="fname" value="{{driver.name}}" pattern="[A-Za-z\s]{3,}" required>
                     
                   </div>
 
@@ -58,7 +58,7 @@
 
                   <div class="form-outline">
                     <label class="form-label" for="phoneNumber">Phone Number</label>
-                    <input type="tel" id="phoneNumber" class="form-control form-control-lg " name="phone" value="{{driver.phone}}" required>
+                    <input type="tel" id="phoneNumber" class="form-control form-control-lg " name="phone" value="{{driver.phone}}" pattern="[0-9]{10}" required>
                     
                   </div>
 

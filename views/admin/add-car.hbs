@@ -18,7 +18,7 @@
 
                   <div class="form-outline">
                     <label class="form-label" for="brand">Brand Name</label>
-                    <input type="text" id="brand" class="form-control form-control-lg" name="brand" required>
+                    <input type="text" id="brand" class="form-control form-control-lg" name="brand" pattern="[A-Za-z\s]{3,}" required>
                     
                   </div>
 
@@ -27,7 +27,7 @@
 
                   <div class="form-outline">
                     <label class="form-label" for="model">Model Name</label>
-                    <input type="text" id="model" class="form-control form-control-lg" name="model" required>
+                    <input type="text" id="model" class="form-control form-control-lg" name="model" pattern="[A-Za-z\s]{3,}" required>
                     
                   </div>
 
@@ -48,7 +48,7 @@
 
                   <div class="form-outline">
                     <label class="form-label" for="amt">Amount</label>
-                    <input type="number" id="amt" class="form-control form-control-lg" name="amount" required>
+                    <input type="number" id="amt" class="form-control form-control-lg" min="1" name="amount" required>
                     
                   </div>
 
@@ -74,7 +74,7 @@
 
                   <div class="form-outline">
                     <label class="form-label" for="kms">Total kilometers</label>
-                    <input type="number" id="kms" class="form-control form-control-lg " name="kms"required>
+                    <input type="number" id="kms" class="form-control form-control-lg " min="100" name="kms"required>
                     
                   </div>
 
@@ -104,7 +104,7 @@
 
                    <div class="form-outline">
                     <label for="seat">Seats</label>
-                    <input type="number" class="form-control form-control-lg" id="seat" name="seat" required>
+                    <input type="number" class="form-control form-control-lg" min="4" id="seat" name="seat" required>
                   </div>
 
                 </div>

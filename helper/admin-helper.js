@@ -291,6 +291,15 @@ module.exports = {
                 else resolve();
             })
         })
-    }
+    },
+    getallUserFeedback:()=>{
+        return new Promise((resolve, reject) => {
+            let sql = `select * from user_feed inner join booking_table on user_feed.b_id=booking_table.booking_id inner join registration on booking_table.u_id=registration.user_id inner join login on registration.l_id = login.l_id`;
+            database.query(sql,(err,result)=>{
+                if (err) reject();
+                else resolve(result)
+            })
+        })
+    },
 
 }

@@ -1,3 +1,10 @@
+<style>
+  .card-title{
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+  }
+</style>
 <div class="container p-3">
     <div><a href="/add-document"class="btn btn-outline-success">add Document</a></div>
     <div class="row">
@@ -8,7 +15,7 @@
   
   
   <div class="card-body">
-    <h5 class="card-title">{{this.document_type}}</h5>
+    <h5><a class="card-title" href="/user-document/{{this.document_type}}{{this.user_id}}.jpg" download>{{this.document_type}}</a></h5>
   </div>
 </div>
 {{/each}}

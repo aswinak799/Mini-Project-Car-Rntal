@@ -313,7 +313,7 @@ module.exports = {
     },
     getBookings:(user_id)=>{
         return new Promise((resolve, reject) => {
-            let sql = `select * from booking_table inner join car_table on booking_table.c_id=car_table.car_id where u_id = '${user_id}' order by time desc`;
+            let sql = `select * from booking_table inner join car_table on booking_table.c_id=car_table.car_id left join user_feed on booking_table.booking_id=user_feed.b_id where u_id = '${user_id}' order by time desc`;
             database.query(sql,(err,result)=>{
                 if(err) throw err;
                 else resolve(result);
@@ -370,6 +370,28 @@ module.exports = {
                 }else{
                     resolve();
                 }
+            })
+        })
+    },
+    existPhoneWhenUpdate:(phone,user_id)=>{
+        console.log(user_id,"*******************************");
+        return new Promise((resolve, reject) => {
+            let sql = `select * from registration where phone = '${phone}' AND user_id <> '${user_id}'`;
+            database.query(sql,(err,resut)=>{
+                if(!err) resolve(resut);
+            })
+        })
+    },
+
+    leaveFeedback:(data)=>{
+        let booking_id = data.booking_id;
+        let feedback = data.status;
+        return new Promise((resolve, reject) => {
+            let sql = `insert into user_feed(feedback,b_id) values('${feedback}','${booking_id}')`
+            database.query(sql,data,(err,result)=>{
+                if(err) reject()
+                else resolve()
+                console.log(result);
             })
         })
     }

@@ -64,7 +64,7 @@ router.post('/update-profile',async(req,res)=>{
     // res.redirect('/driver/');
     
   }).catch((status)=>{
-    return res.status(500).send("<h1>Somthing wrong</h1>");
+    return res.status(500).send('<script>alert("Mobile number already exist");window.location="/driver/update-profile"</script>');
   })
 })
 
@@ -116,7 +116,7 @@ router.get('/change-status',verifyLogin,(req,res)=>{
 })
 
 //Bookings
-router.get('/bookings',(req,res)=>{
+router.get('/bookings',verifyLogin,(req,res)=>{
   let driver_id = req.session.user.driver_id;
   userHelper.getDriverBookings(driver_id).then(async(data)=>{
     for (let i = 0; i < data.length; i++) {
@@ -132,7 +132,7 @@ router.get('/bookings',(req,res)=>{
 })
 
 //view-booking
-router.get('/view-booking',async(req,res)=>{
+router.get('/view-booking',verifyLogin,async(req,res)=>{
 
   let user = await adminHelper.getUser(req.query.user_id);
   console.log(user);
@@ -147,7 +147,7 @@ router.get('/view-booking',async(req,res)=>{
   let car =await userHelper.getCar(req.query.car_id)
   res.render('driver/view-booking',{car:car,driver:req.session.user,customer:user[0],booking:rent_details})
 })
-
+//login
 router.get('/login',(req,res)=>{
     res.send('driver login')
 })

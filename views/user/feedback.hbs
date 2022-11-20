@@ -3,7 +3,7 @@
     
         <div class="card1 container p-5 bg-light" style="border-radius: 15px; opacity:0.89;">
           <div class="card-body p-4 p-md-5">
-            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Send Feedback And Quieries</h3>
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Send Queries</h3>
             <form action="/contact" method="post" name="myform" id="register-form"  enctype="multipart/form-data">
               
               <div class="row">
@@ -44,7 +44,7 @@
                     {{!-- <input type="select" id="subject" class="form-control form-control-lg is-valid" name="subject" placeholder="Subject" required> --}}
                     <select class="form-control form-control-lg" name="subject" required>
                         <option value="">Subject</option>
-                        <option value="Feedback">Feedback</option>
+                        {{!-- <option value="Feedback">Feedback</option> --}}
                         <option value="Queries">Queries</option>
                     </select>
                   </div>
@@ -128,6 +128,10 @@ top: 13px;
   }
   .bg-light {
     background-color: #9dccff!important;
+    transition: 3s;
+}
+.bg-light:hover{
+  background-color: #5cf4da!important;
 }
 
 </style>

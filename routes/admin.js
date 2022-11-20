@@ -164,7 +164,7 @@ router.get('/delete-car/:id',(req,res)=>{
 
 //view driver
 router.get('/view-driver/:id',(req,res)=>{
-  console.log("haiii");
+  // console.log("haiii");
   
   adminHelper.getDriver(req.params.id).then(async(result)=>{
     console.log(result);
@@ -192,7 +192,7 @@ router.get('/view-user/:id',verifyLogin,async(req,res)=>{
 })
 
 
-router.get('/bookings',(req,res)=>{
+router.get('/bookings',verifyLogin,(req,res)=>{
   adminHelper.getAllBookings(req.session.user.user_id).then(async(bookings)=>{
     for (let i = 0; i < bookings.length; i++) {
       bookings[i].picup =await bookings[i].picup.toString().split('00')[0];
@@ -212,7 +212,7 @@ router.get('/bookings',(req,res)=>{
 
 //booking reject
 
-router.get('/booking-reject',(req,res)=>{
+router.get('/booking-reject',verifyLogin,(req,res)=>{
   let booking_id = req.query.booking_id;
   let car_id =  req.query.car_id;
   let driver_id = req.query.driver_id;
@@ -224,7 +224,7 @@ router.get('/booking-reject',(req,res)=>{
 })
 
 //view each booking
-router.get('/view-booking',async(req,res)=>{
+router.get('/view-booking',verifyLogin,async(req,res)=>{
   let driver;
   if (req.query.driver_id) {
     
@@ -249,7 +249,7 @@ router.get('/view-booking',async(req,res)=>{
 
 })
 //feedback
-router.get('/feedback',(req,res)=>{
+router.get('/feedback',verifyLogin,(req,res)=>{
   adminHelper.getAllFeedback().then(async(feedback)=>{
     
 
@@ -267,7 +267,7 @@ router.get('/feedback',(req,res)=>{
 })
 
 //send-responce
-router.get('/send-responce',(req,res)=>{
+router.get('/send-responce',verifyLogin,(req,res)=>{
  
   req.session.feedbackUser = req.query;
   res.render('admin/send-responce',{admin:true,name:req.query.name})
@@ -279,7 +279,8 @@ router.post('/send-responce',(req,res)=>{
   let sub = req.session.feedbackUser.sub;
   let msg = req.body.message;
   req.session.feedbackUser = null;
-adminHelper.responceInsert(f_id,msg).then(()=>{
+adminHelper.responceInsert(f_id,msg).then(async()=>{
+  // let t = await adminHelper.sendMail(email,msg,sub)
   res.redirect('/admin/feedback');
   adminHelper.sendMail(email,msg,sub)
 
@@ -291,7 +292,7 @@ adminHelper.responceInsert(f_id,msg).then(()=>{
 
 
 // booking-processing
-router.get('/booking-processing-completed',(req,res)=>{
+router.get('/booking-processing-completed',verifyLogin,(req,res)=>{
   let booking_id = req.query.booking_id;
   let status = req.query.status;
   console.log(req.query);
@@ -301,6 +302,16 @@ router.get('/booking-processing-completed',(req,res)=>{
     return res.status(500).send("Something WRONG")
   })
 })
+
+//user-feedback
+router.get('/user-feedback',async(req,res)=>{
+  let feedbacks = await adminHelper.getallUserFeedback().catch(()=>{
+    res.status(500).send('<script>alert("internal error");window.location="/admin/"</script>')
+  })
+
+  res.render('admin/user-feedback',{admin:true,feed:feedbacks})
+})
+
 
 router.get('/logout',(req,res)=>{
   req.session.user=null
