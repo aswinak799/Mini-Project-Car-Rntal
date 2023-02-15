@@ -1,0 +1,113 @@
+<h1>Report</h1>
+
+<section class="gradient-custom">
+        <div class="container py-5">
+          
+              <div class="card shadow-2-strong p-5" style="border-radius: 15px; width: 100%;">
+                <div class="card-body p-md-5" style="border: solid 10px #9cd7f3; border-radius: 25px;">
+                  <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Report</h3>
+                  <form action="/admin/report" method="post" >
+                    <div class="row">
+                    <div class="col-md-4 mb-4 d-flex align-items-center">
+
+                      <div class="form-outline datepicker w-100">
+                        <label for="Picup" class="form-label">Start Date</label>
+                        <input type="date" class="form-control form-control-lg" onchange="enebleDate()" id="picup"  name="picup" required>
+                        
+                      </div>
+    
+                    </div>
+                    <div class="col-md-4 mb-4 d-flex align-items-center">
+
+                      <div class="form-outline datepicker w-100">
+                        <label for="Dropoff" class="form-label">End Date</label>
+                        <input type="date" class="form-control form-control-lg"  id="dropoff" name="dropoff" required>
+                        
+                      </div>
+    
+                    </div>
+                    <div class="col-md-4 mt-4 pt-2">
+                      <div class="container pl-5 pr-5">
+                      <input class="btn btn-outline-info btn-lg" type="submit" value="submit" style="width: 100%; border-radius: 20px; border-color: #7af1df;">
+                    </div>
+                    </div>
+                  </div>
+                  </form>
+
+                </div>
+              </div>
+            
+          
+        </div>
+     
+      
+      <style>
+        
+      
+      .card-registration .select-input.form-control[readonly]:not([disabled]) {
+      font-size: 1rem;
+      line-height: 2.15;
+      padding-left: .75em;
+      padding-right: .75em;
+      }
+      .card-registration .select-arrow {
+      top: 13px;
+      }
+      
+      </style>
+      <script>
+        
+        $(function(){
+          //tomorrow.setDate(today.getDate() + 1)
+          var dtToday = new Date();
+          dtToday.setDate(dtToday.getDate() - 30)
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    day = day;
+    var year = dtToday.getFullYear();
+          
+    
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+    
+    var maxDate = year + '-' + month + '-' + day;
+
+    // or instead:
+    // var maxDate = dtToday.toISOString().substr(0, 10);
+
+    $('#picup').attr('max', maxDate);
+});
+
+
+document.getElementById("dropoff").disabled = true;
+
+function enebleDate(){
+//  const x = document.getElementById("picup").value;
+  document.getElementById("dropoff").disabled = false;
+  var dt = new Date();
+ // dt.setDate(dt.getDate() + 1)
+
+  var month = dt.getMonth() + 1;
+    var day = dt.getDate();
+    day = day;
+    var year = dt.getFullYear();
+
+
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+    
+    var maxDate = year + '-' + month + '-' + day;
+
+    // or instead:
+    // var maxDate = dtToday.toISOString().substr(0, 10);
+
+    $('#dropoff').attr('max', maxDate);
+
+}
+      </script>
+
+      

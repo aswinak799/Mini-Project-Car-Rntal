@@ -132,7 +132,7 @@
     {{else}}
        <a class="dropdown-item btn btn-danger" href="/admin/booking-reject?car_id={{this.car_id}}&driver_id={{this.d_id}}&booking_id={{this.booking_id}}" onclick="return confirm('Do you want to reject Booking ?')">Reject</a>
        {{/if}}
-    {{!-- <a class="dropdown-item btn btn-warning" href="/admin/booking-processing-completed?car_id={{this.car_id}}&driver_id={{this.d_id}}&booking_id={{this.booking_id}}&status=Processing">Processing</a> --}}
+    <a class="dropdown-item btn btn-warning" href="/admin/booking-processing-completed?car_id={{this.car_id}}&driver_id={{this.d_id}}&booking_id={{this.booking_id}}&status=Processing">Processing</a>
     <a class="dropdown-item btn btn-success" href="/admin/booking-processing-completed?car_id={{this.car_id}}&driver_id={{this.d_id}}&booking_id={{this.booking_id}}&status=Completed">Completed</a>
   </div>
 </div>

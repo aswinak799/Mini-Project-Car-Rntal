@@ -1,0 +1,92 @@
+
+
+<style type="text/css">
+		body
+		{
+		    counter-reset: Serial;          
+		}
+
+		tr td:first-child:before
+		{
+		  counter-increment: Serial;      
+		  content: counter(Serial); 
+		}
+    .btn{
+      border-radius: 15px;
+    }
+	</style>
+<section>
+    <div class="">
+        <h1 class="text-center">Report</h1>
+
+        <div class="row p-3">
+            
+        </div>
+<div class="mt-3 col-md-12">
+        <div class="col-12">
+        <div class="card recent-sales overflow-auto">
+
+          {{! <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                  </ul>
+                </div> }}
+
+          <div class="card-body">
+            
+            <h5 class="card-title">Report details <span>| All</span></h5>
+  <table class="table table-borderless mt-5" id="productstable" style="width: 100%;">
+  <thead class="thead-light">
+    <tr><th colspan="" width="25%">Report between {{date.picup}} and {{date.dropoff}}</th>
+    <th>Total Bookings : {{res.count}}</th><th colspan="3">Gross Amount : ₹ {{res.total}}</th>
+    </tr>
+    
+    <tr>
+      
+      <th scope="col">Slno</th>
+      <th scope="col">Car</th>
+      
+      <th scope="col">Reg_no</th>
+      <th>Days</th>
+      <th>Amount</th>
+
+      
+    </tr>
+  </thead>
+  <tbody>
+    {{#each resp}}
+       <tr>
+      <td></td>
+      <td>{{this.brand}} {{this.model}}</td>
+      <td>{{this.reg_no}}</td>
+      <th>{{this.days}}</th>
+      <th>₹ {{this.b_amount}}</th>
+
+      
+    </tr>
+    {{/each}}
+    
+   
+    
+  </tbody>
+</table>
+          </div>
+
+        </div>
+      </div>
+</div>
+    </div>
+     
+</section>
+<script>
+  $(document).ready( function () {
+    $('#productstable').DataTable();
+} );
+</script>

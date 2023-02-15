@@ -301,5 +301,29 @@ module.exports = {
             })
         })
     },
+    report:(date)=>{
+        let start = date.picup;
+        let end = date.dropoff;
+        return new Promise((resolve, reject) => {
+           let sql = `select count(*) as count,sum(b_amount) as total from booking_table where time between '${start}' AND '${end}'`
+           
+           database.query(sql,(err,result)=>{
+            resolve(result);
+            
+           }) 
+        })
+    },
+    reportDetails:(date)=>{
+        let start = date.picup;
+        let end = date.dropoff;
+        return new Promise((resolve, reject) => {
+            let sql1 = `select * from booking_table inner join car_table on booking_table.c_id=car_table.car_id where time between '${start}' And '${end}'`
+            database.query(sql1,(err,result)=>{
+                // if(err) throw err;
+                // console.log(result1);
+                resolve(result)
+            })
+        })
+    }
 
 }

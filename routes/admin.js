@@ -304,12 +304,27 @@ router.get('/booking-processing-completed',verifyLogin,(req,res)=>{
 })
 
 //user-feedback
-router.get('/user-feedback',async(req,res)=>{
+router.get('/user-feedback',verifyLogin,async(req,res)=>{
   let feedbacks = await adminHelper.getallUserFeedback().catch(()=>{
     res.status(500).send('<script>alert("internal error");window.location="/admin/"</script>')
   })
 
   res.render('admin/user-feedback',{admin:true,feed:feedbacks})
+})
+
+
+//report
+
+router.get('/report',verifyLogin,(req,res)=>{
+    res.render('admin/report',{admin:true})
+})
+router.post('/report',verifyLogin,(req,res)=>{
+  adminHelper.report(req.body).then(async(response)=>{
+    let resp = await adminHelper.reportDetails(req.body)
+    res.render('admin/monthly-report',{admin:true,res:response[0],date:req.body,resp:resp})
+
+  })
+  console.log(req.body);
 })
 
 
